@@ -1,48 +1,129 @@
 <script setup lang="ts">
-import { BImg, BRow, BCol, BContainer } from 'bootstrap-vue-3';
+import { BRow, BCol, BContainer, BFormCheckbox } from 'bootstrap-vue-3';
+import { ref } from 'vue';
 import ProgramItem from '../components/ProgramItem.vue'
+
+const background = new URL('../assets/friday_background.png', import.meta.url).href
+
+// 1. Language State
+const currentLang = ref<'en' | 'nl'>('en');
+
+const toggleLang = () => {
+  currentLang.value = currentLang.value === 'en' ? 'nl' : 'en';
+};
+
+const translations = {
+  en: {
+    day: "Friday",
+    date: "27 February 2026",
+    introTitle: "Across a series of panel discussions, we will open conversations on:",
+    bullets: [
+      "Legislation, moral panic and education, given the current wave of regulation (such as age verification and the prohibition of depicting choking in the UK) and the call to protect the youth. What are the effects of these measures? And what does an effective porn education look like?",
+      "Consent, repair and accountability in sex-positive events, film sets and kink spaces. Not as ideals, but as lived, messy practices.",
+      "Migrants in the North, from outside the Global North, resist exoticisation and create their own ways for being part and changing the industry."
+    ],
+    closing: "The day will close with a speed-date, designed to spark exchanges, collaborations and alliances.",
+    access: "Industry & Community Day is free for all accredited participants. Companies and members of the general audience are warmly invited to join by purchasing a ticket.",
+    lunchInfo: "There is a free drink for everyone, and De Sering offers a vegan lunch for a friendly price.",
+    agendaTitle: "Agenda:",
+    schedule: [
+      "12:00 - 13:00 - Arrival & lunch",
+      "13:00 - 14:00 - Legislation, moral panic and education",
+      "14:00 - 14:30 - Break",
+      "14:30 - 15:30 - Consent, repair and accountability",
+      "15:30 - 16:00 - Break",
+      "16:00 - 17:00 - Migrants in the North",
+      "17:00 - 17:30 - Speed date"
+    ],
+    prices: [
+      "Sex workers and porn creators € 15.00",
+      "Companies € 50.00",
+      "Visitors € 25.00"
+    ]
+  },
+  nl: {
+    day: "Vrijdag",
+    date: "27 Februari 2026",
+    introTitle: "In drie panelgesprekken snijden we de volgende thema’s aan:",
+    bullets: [
+      "Wetgeving, morele paniek en educatie. We werpen een blik op de huidige regelementeringsgolf (o.a. leeftijdsverificatie en een verbod op het afbeelden van choking in het VK) en de veelvuldig gehoorde oproep tot bescherming van de jeugd. Welke effecten hebben deze maatregelen? En hoe zou doeltreffende educatie omtrent porno eruit kunnen zien?",
+      "Consent, herstel en verantwoordelijkheid op sekspositieve evenementen, filmsets en ruimtes voor kinkbeoefening. Niet als theoretische idealen, maar als werkelijke, doorleefde praktijken die soms ook mis zullen gaan. En wat doe je dan?",
+      "Migranten in het Noorden. Over mensen die van buiten het Globale Noorden komen en zich verzetten tegen exoticisme. Hoe banen zij hun eigen paden om deel te kunnen nemen aan de industrie en die misschien ook te veranderen?"
+    ],
+    closing: "We sluiten de dag af met een speeddate gericht op nieuwe connecties, samenwerkingen en uitwisseling van ideeën.",
+    access: "Industry & Community Day is gratis toegankelijk met accreditatie. Bedrijven en festivalbezoekers zijn zeer welkom om deel te nemen door een toegangskaartje te kopen.",
+    lunchInfo: "Er is voor iedereen een gratis drankje, en de Sering biedt een veganistische lunch aan voor een vriendelijke prijs.",
+    agendaTitle: "Rooster:",
+    schedule: [
+      "12:00 - 13:00 - Inloop & lunch",
+      "13:00 - 14:00 - Wetgeving, morele paniek en educatie",
+      "14:00 - 14:30 - Pauze",
+      "14:30 - 15:30 - Consent, herstel en verantwoordelijkheid",
+      "15:30 - 16:00 - Pauze",
+      "16:00 - 17:00 - Migranten in het Noorden",
+      "17:00 - 17:30 - Speeddate"
+    ],
+    prices: [
+      "Sekswerkers en pornomakers € 15.00",
+      "Bedrijven € 50.00",
+      "Bezoekers € 25.00"
+    ]
+  }
+};
+
 const agenda = [
   {
     "id": 1,
     "image": new URL('../assets/ic1.png', import.meta.url).href,
-    "title": "INDUSTRY & COMMUNITY DAY ",
-    "time": "13:00",
-    "place": "tilla tec",
-    "text": `
-        We believe that film festivals like ours are key to the development of a vibrant and diverse pornography scene. And so, for our second edition, we welcome our community to meet and talk around topics that ground our practices. 
-    <br/>
-     <br/>
-    We will host three panels where filmmakers, content creators, performers and activists discuss kink and care, porn-making in the Netherlands, and the challenges and opportunities the internet brings to sex work and pornography.
-    <br/>
-    <br/>
-    We will close the day with a speed-date, where we hope many beautiful projects and alliances will emerge.
-    <br/>
-    All accredited people have free access to the Industry & Community Day.
-    <br/>
-    <br/>
-    Companies and the general audience are also welcome to join by purchasing a ticket.
-     `,
-    "description": `<p>
-    </p>`,
+    "title": "Industry & Community Day",
+    "time": "12:00 - 17:30",
+    "place": "De Sering",
+    "text": {
+      "en": "Porn Film Festival Amsterdam was founded on the belief that porn is not disposable content, but a core part of culture. It is made by people, shaped by politics, economies, migration, desire, censorship and care. If porn is to thrive as an artistic and political practice, it needs spaces where those who create it can meet, reflect, disagree, repair and imagine new futures together.<br/><br/>For this edition, we invite filmmakers, performers, content creators, sex workers, activists and allies to come together around the questions that ground our work: How do we make porn ethically and sustainably? How do we navigate power, consent and care across sets, screens and sex-positive spaces?",
+      "nl": "Porn Film Festival Amsterdam is opgericht met de overtuiging dat porno geen wegwerpartikel, maar een wezenlijk deel van onze cultuur is. Het is mensenwerk dat wordt beïnvloed door lust, zorg, politiek, economie en migratie. Als porno wil kunnen floreren als een artistieke en politiek praktijk, zijn er ontmoetingsplekken nodig waarin makers van gedachten kunnen wisselen, het oneens mogen zijn, herstellend werk kunnen verrichten en samen nieuwe toekomstbeelden mogen bedenken.<br/><br/>Voor deze editie nodigen we filmmakers, performers, content creators, sekswerkers, activisten en bondgenoten uit om vragen te bespreken die aan de basis van ons werk liggen: Hoe maken we porno ethisch en duurzaam? Hoe gaan we om met macht, consent en zorg op de set, op het scherm en in sekspositieve ruimtes?"
+    },
+    "description": "",
     "duration": "",
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17564"
+    "imagelogo": new URL('../assets/DeSering-Logo.png', import.meta.url).href,
+    "ticket": "https://amsterdamalternative.nl/tickets/20917"
   }
 ]
 </script>
 
 <template>
-  <b-container fluid class="program-color">
-    <!-- Titles and Main Image -->
+  <b-container fluid
+  class="d-flex flex-column min-vh-100 px-0 view-background"
+  :style="{ 
+    backgroundImage: 'url(' + background + ')',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed'
+  }">
+    
     <b-row class="mt-5">
-      <b-col xs="12" lg="12" class="text-center">
-        <div class="titles mt-5">Friday</div>
-        <div class="titles">7 February 2025</div>
+      <b-col xs="12" class="text-center">
+        <div class="titles mt-5">{{ translations[currentLang].day }}</div>
+        <div class="titles">{{ translations[currentLang].date }}</div>
+      </b-col>
+    </b-row>
+
+    <b-row class="justify-content-center my-4">
+      <b-col cols="auto" class="d-flex align-items-center">
+        <span class="lang-label me-2" :class="{ 'active-lang': currentLang === 'nl' }">NL</span>
+        <b-form-checkbox 
+          :model-value="currentLang === 'en'" 
+          @change="toggleLang" 
+          switch 
+          size="lg"
+          class="custom-switch"
+        />
+        <span class="lang-label ms-2" :class="{ 'active-lang': currentLang === 'en' }">ENG</span>
       </b-col>
     </b-row>
 
     <program-item 
-        v-for="item in agenda" 
+        v-for="(item, index) in agenda" 
         :key="item.id" 
         :image="item.image"
         :title="item.title"
@@ -50,141 +131,81 @@ const agenda = [
         :place="item.place"
         :description="item.description"
         :duration="item.duration"
-        :text="item.text"
+        :text="item.text[currentLang]"
         :imagelogo="item.imagelogo"
         :ticket="item.ticket"
-      />
+        :reverse="index % 2 !== 0"
+        :is-first="index === 0"
+    />
 
     <b-row class="mx-5 px-5">
+      <b-col xs="12" lg="8" class="mx-4">
+        <br/>
+        <div class="mb-3"><strong>{{ translations[currentLang].introTitle }}</strong></div>
+        
+        <ul class="mb-4">
+          <li v-for="(bullet, i) in translations[currentLang].bullets" :key="i" class="mb-3">
+            {{ bullet }}
+          </li>
+        </ul>
+        
+        <div class="mb-3">{{ translations[currentLang].closing }}</div>
+        <div class="mt-4">{{ translations[currentLang].access }}</div>
+        <div class="mt-2"><i>{{ translations[currentLang].lunchInfo }}</i></div>
+      </b-col>
+    </b-row>
+
+    <b-row class="mx-5 px-5 mt-4">
       <b-col xs="12" lg="6" class="mx-4">
-        <h4 style="font-weight: bold;">Agenda:</h4>
+        <h4 style="font-weight: bold;">{{ translations[currentLang].agendaTitle }}</h4>
         <br/>
-        <div class="mb-1">13:00 - 13:30 - Welcome drink & intro</div>
-        <div class="mb-1">13:30 - 14:15 - <span style="font-weight: bold;">Panel 1</span> - Beyond After Care: A panel discussion on the importance of care throughout kink experiences</div>
-        <div class="mb-1">14:15 - 14:30 - Break</div>
-        <div class="mb-1">14:30 - 15:15 - <span style="font-weight: bold;">Panel 2</span> - The Digital Frontier of Desire</div>
-        <div class="mb-1">15:15 - 15:30 - Break and performance by  <span style="font-weight: bold;">Déandrah - The Guilt After Orgasm. Blindfolded Voyeurism Into People’s Lives</span></div>
-        <div class="mb-1">15:30 - 16:15 - <span style="font-weight: bold;">Panel 3</span> - Homegrown: Outlook on Dutch Postporn</div>
-        <div class="mb-1">16:30 - 17:00 - Performance: a shibari showcase</div>
-        <div class="mb-1">17:15 - 18:15 - Speed date</div>
+        <div v-for="(line, i) in translations[currentLang].schedule" :key="i" class="mb-1">
+          {{ line }}
+        </div>
       </b-col>
     </b-row>
 
-    <b-row class="d-flex justify-content-center mx-5 px-5">
-      <b-col xs="12" lg="6" class="text-center">
-        <h2 style="font-weight: bold;">More details</h2>
+    <b-row class="mx-5 px-5 mt-4 pb-5">
+      <b-col xs="12" lg="6" class="mx-4">
+        <div v-for="(price, i) in translations[currentLang].prices" :key="i" class="mb-1">
+          {{ price }}
+        </div>
       </b-col>
     </b-row>
-
-    <b-row class="mx-5 px-5">
-      <b-col xs="12" lg="12" class="mx-4">
-        <br/>
-        <h6> • <span style="font-weight: bold; text-decoration: underline;"> Panel 1 - Beyond After Care: A panel discussion on the importance of care throughout kink experiences</span></h6>
-        <h6 style="font-weight: bold;">Hosted by Jessica van der Berg</h6>
-        <p>
-          There is far more to kink* than the rope kisses left behind after a kinbaku session or the promising allure of subspace. Kink has the ability to help us reach more spaces within ourselves than many other practices. Within this panel, we will discuss an essential element to successful, effective kink: care. 
-        </p>
-        <p>
-          Care is fundamental to healthy kink exploration, serving as a cornerstone for both tops and bottoms in the dynamic. Not just after care, but care throughout the experience - from negotiation and dressing up to making mistakes and exploring new dynamics. 
-        </p>
-        <p>
-          We will delve into the realities of navigating desires, building trust, avoiding the yucking of yums and creating safe spaces within ourselves and the kinky communities we are part of.
-        </p>
-        <p>
-          *Care does not soften or lessen the power of kink.
-        </p>
-        <h6 style="font-weight: bold;">Panelists:</h6>
-        <div><span style="font-weight: bold;">Countess Diamond </span> An award-winning, UK-based dominatrix with focuses on financial domination and humiliation </div>
-        <div><span style="font-weight: bold;">Papilicious </span> A kinbaku practitioner and studio founder based in Amsterdam  </div>
-        <div><span style="font-weight: bold;">Bear </span> Activist, educator, performer, kink practitioner and organiser for Porn Film Festival Amsterdam</div>
-        <div><span style="font-weight: bold;">Chelsea Poe </span> Dutch/American professional BDSM submissive and highly-awarded pornographer </div>
-      </b-col>
-    </b-row>
-
-    <b-row class="mx-5 px-5">
-      <b-col xs="12" lg="12" class="mx-4">
-        <br/>
-        <h6> • <span style="font-weight: bold; text-decoration: underline;"> Panel 2 - The Digital Frontier of Desire</span></h6>
-        <h6 style="font-weight: bold;">Hosted by Luisa González</h6>
-        <p>
-          The internet has undeniably introduced both significant challenges and exciting opportunities for sex work and the production and distribution of pornographic content. The landscape has evolved dramatically, from the early platforms that sold on-demand pornography to the emergence of tube sites and content creator platforms.  And from individuals camming straight from their bedrooms via Skype to the modern “studios” in Colombia and Romania, where hundreds of webcam models broadcast their pleasures in exchange for tokens.
-        </p>
-        <p>
-          The arrival and widespread use of the internet have profoundly transformed the porn industry and the communities within it. In this panel, we will discuss the pros and cons of online platforms for sex work and pornography. It offers an opportunity to stay informed about the struggles faced by individuals working in the online space, while also considering the potential benefits.
-        </p>
-        <h6 style="font-weight: bold;">Panelists:</h6>
-        <div><span style="font-weight: bold;">Christina Castalia</span> International, award-winning curvy cam model, creator and thought leader in erotica.</div>
-        <div><span style="font-weight: bold;">Hanne Stegeman</span> Author of “Behind the Webcam. Contested Visibility in Online Sex Work in the Netherlands, Romania and the United Kingdom”</div>
-        <div><span style="font-weight: bold;">Rébecca S Franco</span>  researcher on the regulation of online sex work and advocate for workers’ rights.</div>
-        <div><span style="font-weight: bold;">Thany Sanches</span> Brazilian multimedia artist whose work is deeply influenced by her experiences as a cam model and her journey with partial blindness</div>
-      </b-col>
-    </b-row>
-
-    <b-row class="mx-5 px-5">
-      <b-col xs="12" lg="12" class="mx-4">
-        <br/>
-        <h6> • <span style="font-weight: bold; text-decoration: underline;"> Panel 3 - Homegrown: Outlook on Dutch Postporn</span></h6>
-        <h6 style="font-weight: bold;">Hosted by Bear Silver</h6>
-        <p>
-          Join us for a transparent conversation with Amsterdam-based filmmakers exploring the evolving landscape of post-pornographic cinema in the Netherlands.
-        </p>
-        <p>
-          'Homegrown' brings together local creators who are challenging traditional narratives and pushing artistic boundaries in adult filmmaking. Our panelists will discuss how Amsterdam's unique cultural climate has shaped their work  and the city's role in fostering experimental approaches to representing human sexuality. This candid dialogue will explore how local creators are redefining the genre through political perspectives, artistic innovation and ethical production practices.
-        </p>
-        <h6 style="font-weight: bold;">Panelists:</h6>
-        <div><span style="font-weight: bold;">Vivi Stone</span> Editor, director, producer and actor based in Amsterdam</div>
-        <div><span style="font-weight: bold;">Lilith the Midget</span> Creator with a different mindset, every size matters</div>
-        <div><span style="font-weight: bold;">Jack P</span> Southeast Asian trans* artist making DIY queer porn, theater and zines</div>
-        <div><span style="font-weight: bold;">Kiki Kazimi</span> Queer Irish-Dutch multi-sensory artist, lover and facilitator</div>
-      </b-col>
-    </b-row>
-
-    <b-row class="mx-5 px-5">
-      <b-col xs="12" lg="12" class="mx-4">
-        <br/>
-        <h6><span style="font-weight: bold; text-decoration: underline;"> Performances</span></h6>
-        <h6> • <span style="font-weight: bold;"> The Guilt After Orgasm. Blindfolded Voyeurism Into People’s Lives - by Déandrah</span></h6>
-        <p>Insights from research reveal patterns of addiction, where users often engage with multiple porn tabs simultaneously, mirroring the fragmented, dopamine-driven engagement seen in social media. Drawing a parallel between these digital habits and capitalist excess suggests that technology has commodified human interaction and artistic expression within pornography. By focusing on OnlyFans contributors, the project underscores a collective enthusiasm for banality and indifference, highlighting a troubling sense of replaceability in the digital age. </p>
-      </b-col>
-    </b-row>
-
-    <b-row class="mx-5 px-5">
-      <b-col xs="12" lg="12" class="mx-4">
-        <br/>
-        <h6> • <span style="font-weight: bold;"> Shibari showcase - by Papilicious </span></h6>
-        <p>This captivating blend of artistry, vulnerability and connection is brought to you by Papilicious, a queer shibari rigger based in Amsterdam. Originating from the Japanese art of rope bondage, shibari transforms intricate knots and elegant ties into a dynamic, living sculpture. </p>
-        <p>The interplay of tension and release creates a mesmerizing visual and emotional experience, inviting you to witness the beauty of human form and intimacy expressed through an ancient yet evolving craft. Join as we explore themes of trust, surrender and power. </p>
-      </b-col>
-    </b-row>
-
 
   </b-container>
 </template>
 
 <style scoped>
-/* Main titles style */
+.lang-label {
+  font-weight: bold;
+  color: #555;
+  font-family: sans-serif;
+}
+
+.active-lang {
+  color: #000;
+}
+
+:deep(.form-check-input) {
+  cursor: pointer;
+  background-color: #6a4da1 !important;
+  border-color: #6a4da1 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+
+:deep(.form-check-input:checked) {
+  background-color: #6a4da1 !important;
+}
+
 .titles {
   font-size: 3em;
   font-weight: bold;
 }
 
-/* Paragraph style */
-.paragraph {
-  margin-bottom: 1em;
-}
-
-/* Responsive adjustments */
 @media (max-width: 576px) {
   .titles {
     font-size: 1.5em;
   }
-
-  .paragraph {
-    font-size: 0.9em;
-  }
-}
-
-.program-color {
-  background: #E2B4BF;
 }
 </style>
