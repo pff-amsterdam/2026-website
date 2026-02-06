@@ -28,9 +28,6 @@ main {
     flex-grow: 1;
 }
 
-.pffa_bg {
-  background-color: #C1D3A6;
-}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

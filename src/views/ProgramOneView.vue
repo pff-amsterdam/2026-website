@@ -1,157 +1,196 @@
 <script setup lang="ts">
-import { BImg, BRow, BCol, BContainer } from 'bootstrap-vue-3';
+import { BRow, BCol, BContainer, BFormCheckbox } from 'bootstrap-vue-3';
+import { ref } from 'vue'; 
 import ProgramItem from '../components/ProgramItem.vue'
+
+const background = new URL('../assets/thursday_background.png', import.meta.url).href
+
+// 1. Language State
+const currentLang = ref<'en' | 'nl'>('en');
+
+const toggleLang = () => {
+  currentLang.value = currentLang.value === 'en' ? 'nl' : 'en';
+};
+
+const translations = {
+  en: { day: "Thursday", date: "26 February 2026" },
+  nl: { day: "Donderdag", date: "26 Februari 2026" }
+};
+
 const agenda = [
-  {
-    "id": 1,
-    "image": new URL('../assets/thursday1.png', import.meta.url).href,
-    "title": "CHEEKY SNEAK PEEK",
-    "time": "16:00",
-    "place": "Filmhuis CAVIA",
-    "text": `Hi, is this your first time here? A bit overwhelmed by all the options? This sure is a vibrant place where you easily get lost. If you feel you need a tour guide to show you around, we’ve got you covered. Hop in the back and take a spin with us past all our favorite hot spots and steamy back alleys. We’ll let you peek into the secret lives of bedrooms, offices, clinics and kitchens. After that you’ll know enough to navigate this town on your own. Please fasten your seatbelts, our driver loves to hit the gas and might climb some curbs along the way. `,
-    "description": `<p>
-      <strong>Tompussy</strong> | Lokin and Yola, aka the Annoying kids | 2024 | The Netherlands | 3’
-      <br/>
-      <strong>The Man Who Perceives All</strong> | Emre Busse | 2024 | Germany | 8’ 
-      <br/>
-      <strong>I'm not mothering sick motherfuckers</strong> | Pussy Willow | 2023 | Poland | 1’
-      <br/>
-      <strong>CripPleasurePower</strong> | ari sinn | 2024 | The Netherlands, Italy | 10’ 
-      <br/>
-       <strong>Dancing Bodies</strong> | La Fille Renne, Elisa Monteil & Laure Giappiconi | 2019 | France | 6’
-      <br/>
-       <strong>Gamètes</strong> | CLAP! Collectif - Nova Luv | 2024 | Belgium | 16’ 
-      <br/>
-       <strong>How to Eat a Whole Watermelon and Get Away with It</strong> | Iris Glitzer | 2024 | Germany, Greece | 7’
-      <br/>
-       <strong>Friend Zone</strong> | Sakura Ardila Ortiz | 2023 | Colombia | 10’
-      <br/>
-       <strong>I really want to get fucked</strong> | Robin Astera | 2024 | Germany | 6’
-      <br/>
-       <strong>The Lesbian Alien Darkroom Fisting Operetta on Venus</strong> | Lasse Långström & The homosex syndicate of precarious avantgarde artists | 2024 | Germany/Sweden | 14’
-      <br/>
-    </p>`,
-    "duration": "81 min",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17639"
+{
+  "id": 1,
+  "image": new URL('../assets/thursday1.png', import.meta.url).href,
+  "title": "CHEEKY SNEAK PEEK",
+  "time": "16:00",
+  "place": "Filmhuis CAVIA",
+  "text": {
+    "en": "A very sneaky welcome to Porn Film Festival Amsterdam 2026. To start off this edition with a bang (yes), we invite you to peek around the corner with us at Filmhuis Cavia. Get a glimpse of some of our darlings and a quick tour through several of the themes of this year’s program. Whether you’re a first-timer or a regular, this selection is sure to whet your appetite and leave you begging for what’s to come.",
+    "nl": "Een zeer sneaky welkom op Porn Film Festival Amsterdam 2026. Als opzwepend begin van deze derde editie nodigen we je uit om over de klapdeurtjes van Filmhuis Cavia heen te gluren en alvast een glimp op te vangen van het programma dat je te wachten staat. Met een greep uit onze persoonlijke favorieten leiden we je langs de thema’s van deze editie. Of je nu een nieuwkomer of een trouwe bezoeker bent, deze boeiende selectie zal je doen smeken om meer films."
   },
-  {
-    "id": 2,
-    "image": new URL('../assets/thursday2.png', import.meta.url).href,
-    "title": "PORN, PEACE, POLITICS",
-    "time": "18:00",
-    "place": "Filmhuis CAVIA",
-    "text": `When we launched the open call for the second edition of our festival, a right-wing government had just been elected in the Netherlands, intensifying threats to already vulnerable sectors of society. This local unrest intersects with global crises: the ongoing genocide in Palestine, the war in Ukraine, the murder of thousands for resource extraction in the Amazon, Congo and other regions, and the relentless destruction of nature.
-The films in this block originate from diverse contexts and come together to create a collective, choral-like voice addressing these turbulent times. They form a unified critique of what the indigenous Nasa people in Colombia describe as the "death project" - a system that perpetuates violence, exploitation and environmental devastation.`,
-    "description": `<p>
-      <strong>PE ATAJU JUMALI / HOT AIR</strong> | Margarita Weweli-Lukana, Juma Pariri, Frê Arvora, Gurcius Gewdner, Amaya Torres, Jules Zinn, Juan Camilo Herrera Casilimas e Juliana Pongutá Forero | 2023 | Brazil, Colombia, USA, Canada | 25’
-      <br/>
-      <strong>How to Eat a Whole Watermelon and Get Away with It</strong> | Iris Glitzer | 2024 | Germany, Greece | 7’ 
-      <br/>
-      <strong>Pornographic practices against death drive</strong> | 2024 | Spain, Chile | 22’ 
-      <br/>
-      <strong>Slut in the military circus</strong> | AntiGonna</strong> | 2024 | Ukraine, Poland | 13’
-      <br/>
-      <strong>Oda a la alegría (Ode to joy)</strong> | Lola Pistola | 2024 | Catalunya | 4’
-      <br/>
-    </p>`,
-    "duration": "71 min + Q&A",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://www.amsterdamalternative.nl/agenda/17565/porn-peace-politics"
+  "description": `<p>
+    <strong>Thing</strong> | Ori Di Vincenzo | 2024 | Germany | 11’
+    <br/>
+    <strong>The Eternal Whore. Regulation of sex work through history</strong> | Rori Dior, Diego Gómez | 2024 | Germany | 11’
+    <br/>
+    <strong>Feverish</strong> | Fabienne Garçonne & Jamal Phoenix | 2025 | Switzerland | 5'
+    <br/>
+    <strong>Glimmer</strong> | Fennek Film | 2025 | Sweden | 2'
+    <br/>
+    <strong>Your REAL Companion</strong> | Officer Flower, Iris Glitzer | 2025 | Germany | 13’
+    <br/>
+    <strong>Mating Season</strong> | Juan Saez / Heavy Load Studio | 2025 | Germany | 9’
+    <br/>
+    <strong>alt.sex.fetish.robots</strong> | Zed Sheng | 2025 | USA, Thailand | 5’
+    <br/>
+    <strong>Blue Movie</strong> | dw zero | 2025 | Greece | 1’
+    <br/>
+    <strong>TARANTA TARANTA</strong> | Kiki Kazimi, Lola Pistola | 2025 | Italy | 5’
+    <br/>
+    <strong>Fluister voor me</strong> | Silkyway's Universe | 2025 | Netherlands | 4’
+    <br/>
+    <strong>Ravine</strong> | Oat Montien | 2024 | USA | 6’
+    <br/>
+    <strong>French Breads</strong> | Mathieu Berthon | 2025 | France | 17’
+    <br/>
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 89 min + Q&A",
+    "nl": "<strong>Totale duur:</strong> 89 min + Q&A"
   },
+  "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20881"
+},
+{
+  "id": 2,
+  "image": new URL('../assets/thursday2.png', import.meta.url).href,
+  "title": "CRUISING (Beyond) THE WORLD",
+  "time": "18:00",
+  "place": "Filmhuis CAVIA",
+  "text": {
+    "en": "Cruising lives in the space between wanting and being wanted. It’s the hunt, the heat, the glance that lingers a second too long. A ritual born from survival and desire, a way of finding each other in the dark, in the margins, in the places not meant for us. These films trace bodies in motion: circling, seeking, inviting. They explore risk, play, power and the quiet language of strangers who meet without words.",
+    "nl": "Cruising vindt plaats in de ruimte tussen begeren en begeerd worden. Het is een verhitte jacht, een blik die net iets te lang blijft hangen, een ritueel dat ontsproot uit overleving en verlangen. Een manier om elkaar te vinden in het donker, in de marges, op plekken die niet voor ons bedoeld waren. Deze films tonen lichamen in beweging: rondcirkelend, speurend, verwelkomend. Ze nemen risico’s, spelen met macht en de geruisloze taal van vreemden in een woordeloze ontmoeting."
+  },
+  "description": `<p>
+    <strong>Cybersex 19</strong> | Chico Ludermir | 2024 | Brazil | 9’
+    <br/>
+    <strong>Hijos de Hímero (Sons of Himeros)</strong> | Santiago Calle G. | 2025 | Colombia | 16’
+    <br/>
+    <strong>A Garden Under The Earth</strong> | Pedro Lavin | 2024 | USA, Mexico | 6’
+    <br/>
+    <strong>The Gnoll Hole Patrol</strong> | Monsterbait & Xavours | 2025 | France | 6’
+    <br/>
+    <strong>Cumrags</strong> | Blade | 2025 | Germany | 16’
+    <br/>
+    <strong>( CON - TACTOS )</strong> | Julu Martínez | 2024 | Spain | 7’
+    <br/>
+    <strong>French Breads</strong> | Mathieu Berthon | 2025 | France | 17’
+    <br/>
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 77 min + Q&A",
+    "nl": "<strong>Totale duur:</strong> 77 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/agenda/20884"
+},
   {
     "id": 3,
     "image": new URL('../assets/thursday3.png', import.meta.url).href,
-    "title": "SOLO",
-    "time": "20:30",
-    "place": "Filmhuis CAVIA",
-    "text": '',
-    "description": `<p>
-      <strong>Holy Time</strong> Registro Contracultural | 2019 | 7 min
-      <br/>
-      “Holy Time” is a post-porn, anti-clerical, elegant, and folkloric video performance. It includes BDSM practices. The action is a ritual of profound love, complicity, and submission between Mistress Miranda, her friend and apprentice Maracx Bastardx, and the new submissive, Mass. It was performed live on April 12, 2019, at the BDSM Auch event in Santiago, Chile.
-      <br/>
-      <br/>
-      <strong>SOLO</strong> | Andrés Valenzuela | 2024 | Chile | 63’ 
-      <br/>
-      Through the life of Ed, an erotic performer from Chile, Andrés Valenzuela crafts a homage to anal pleasure and to the queer community at the heart of Chile’s post-porn scene. SOLO is a film that explores worlds and bodies in flux—contracting and expanding, inviting communal encounters, yet at times seeking solitude, to simply be "solo."
-      <br/>
-      <br/>
-      <strong>Andrés Valenzuela</strong>: Santiago, Chile, 1982. Based in Buenos Aires, Argentina.
-      Multidisciplinary "marika" artist. Creator of the web archive registrocontracultural.com, a platform dedicated to the digital preservation of Latin American, sex-dissident artistic memories. 
-      Valenzuela works with members of the LGBTQI+ community and allies in both Chile and Argentina, supporting an activist and integrative approach toward collective development within society. Since 2019, they have collaborated with various artists and collectives, establishing a consistent work as a videographer and filmmaker documenting artistic expressions from the local transfeminist scene and sexual dissidence activism.
-      <br/>
-      <a href="https://andresvalenzuela.cl" target="_blank" rel="noopener noreferrer"> andresvalenzuela.cl
-</a>
-    </p>`,
-    "duration": "70 min + Virtual Q&A with Andrés Valenzuela",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17569"
-  },
-  {
-    "id": 4,
-    "image": new URL('../assets/thursday4.png', import.meta.url).href,
     "title": "OPENING PARTY",
     "time": "21:00",
     "place": "Vrankrijk",
-    "text": "PFFA turns two, time for a party! A steamy night of performances and DJ’s will launch us right into the second edition of the festival. Join us at the Vrankrijk as we spend the night dancing and celebrating all the love and support we’ve received from you this year. Dress up or strip down, come as extravagant as you feel. We’ll make sure that by the end of the night you’ve done enough sweating to skip the gym and spend the rest of your weekend in our soft cinema seats.",
-    "description": `<p>
-      <br/>
-      <br/> 
-      <br/>
-      Entrance on donation. Cash only, no cards.
-    </p>`,
+    "text": {
+      "en": "Climb out of your cold caves, leave your dark alleys, throw off those socks and blankets, this party will warm you up in no time. We’ll inaugurate the third edition of the festival with steamy performances and smooth DJ’s that will make you hot and hungry for more.",
+      "nl": "Kruip je koude kelder uit, kom uit die donkere steeg tevoorschijn, gooi je wollen sokken en je dekentje in een hoek, want dit feest warmt je in een mum van tijd op. We luiden de derde editie van het festival in met vlammende performances en onze vurige DJ’s maken je heet en hongerig naar meer."
+    },
+    "description": ``,
+    "duration": "",
     "imagelogo": new URL('../assets/Vrankrijk.png', import.meta.url).href,
   }
 ]
 </script>
 
 <template>
-  <b-container fluid>
-    <!-- Titles and Main Image -->
+  <b-container fluid
+    class="d-flex flex-column min-vh-100 px-0 view-background"
+  :style="{ 
+    backgroundImage: 'url(' + background + ')',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed'
+  }">
     <b-row class="mt-5">
       <b-col xs="12" lg="12" class="text-center">
-        <div class="titles mt-5">Thursday</div>
-        <div class="titles">6 February 2025</div>
+        <div class="titles mt-5">{{ translations[currentLang].day }}</div>
+        <div class="titles">{{ translations[currentLang].date }}</div>
+      </b-col>
+    </b-row>
+
+    <b-row class="justify-content-center my-4">
+      <b-col cols="auto" class="d-flex align-items-center">
+        <span class="lang-label me-2" :class="{ 'active-lang': currentLang === 'nl' }">NL</span>
+        <b-form-checkbox 
+          :model-value="currentLang === 'en'" 
+          @change="toggleLang" 
+          switch 
+          size="lg"
+          class="custom-switch"
+        />
+        <span class="lang-label ms-2" :class="{ 'active-lang': currentLang === 'en' }">ENG</span>
       </b-col>
     </b-row>
 
     <program-item 
-        v-for="item in agenda" 
+        v-for="(item, index) in agenda" 
         :key="item.id" 
         :image="item.image"
         :title="item.title"
         :time="item.time"
         :place="item.place"
         :description="item.description"
-        :duration="item.duration"
-        :text="item.text"
+        :duration="item.duration ? item.duration[currentLang] : ''"
+        :text="item.text[currentLang]"
         :imagelogo="item.imagelogo"
         :ticket="item.ticket"
-      />
+        :reverse="index % 2 !== 0"
+        :is-first="index === 0"
+    />
   </b-container>
 </template>
 
 <style scoped>
-/* Main titles style */
+.lang-label {
+  font-weight: bold;
+  color: #555;
+  font-family: sans-serif;
+}
+
+.active-lang {
+  color: #000;
+}
+
+:deep(.form-check-input) {
+  cursor: pointer;
+  background-color: #6a4da1 !important;
+  border-color: #6a4da1 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+
+:deep(.form-check-input:checked) {
+  background-color: #6a4da1 !important;
+  border-color: #6a4da1 !important;
+}
+
 .titles {
   font-size: 3em;
   font-weight: bold;
 }
 
-/* Paragraph style */
-.paragraph {
-  margin-bottom: 1em;
-}
-
-/* Responsive adjustments */
 @media (max-width: 576px) {
   .titles {
     font-size: 1.5em;
-  }
-
-  .paragraph {
-    font-size: 0.9em;
   }
 }
 </style>

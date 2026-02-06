@@ -1,602 +1,608 @@
 <script setup lang="ts">
-import { BImg, BRow, BCol, BContainer } from 'bootstrap-vue-3';
+import { BImg, BRow, BCol, BContainer, BFormCheckbox } from 'bootstrap-vue-3';
+import { ref, computed } from 'vue'; 
 import ProgramItem from '../components/ProgramItem.vue'
-const agenda = [
-  {
-    "id": 1,
-    "image": new URL('../assets/sat1.png', import.meta.url).href,
-    "title": "FUCK YOUR FRIENDS",
-    "time": "11:00",
-    "place": "Theater de Richel",
-    "text": `
-    This is an ode to the friends we fuck, the friends we want to fuck, the friends we eye fuck, the friends who want to fuck us, the friends we love too much to fuck.
-    <br/>
-    <br/>
-    This is an ode to love, tension, fun, mini heartbreaks, acceptance, safety, hard conversations, ever-changing dynamics and drunken kisses. In a perfect world, there might be a lot more friend fucking. This block draws us into that world. So come on in and make some friends ;)
-     `,
-    "description": `<p>      
-      <strong>Dancing Bodies</strong> | La Fille Renne, Elisa Monteil & Laure Giappiconi | 2019 | France | 6’
-      <br/>
-      <strong>Bodyphoria Bangers</strong> | anna ivanova, Lo-Fi Cherry | 2024 | Germany | 17’
-      <br/>
-      <strong>masturbation(s)</strong> | PornProcess | 2023 | Belgium | 16’
-      <br/>
-      <strong>Friend Zone</strong> | Sakura Ardila Ortiz | 2023 | Colombia | 10’
-      <br/>
-      <strong>Gamètes</strong> | CLAP! Collectif - Nova Luv | 2024 | Belgium | 16’
-      <br/>
-      <strong>Guacamole</strong> | Carmina | 2019 | France | 16’
-    </p>`,
-    "duration": "81 min + Q&A",
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17582"
-  },
-  {
-    "id": 2,
-    "image": new URL('../assets/sat2.png', import.meta.url).href,
-    "title": "UNDER THE COUNTER: Britain’s Illicit Porn Film Trade",
-    "time": "12:30",
-    "place": "Filmhuis CAVIA",
-    "text": `
-    Between 1960 and 1972 Britain was a major production hub for rollers - short black and white hardcore 8mm films. Although the sale of hardcore was strictly forbidden in Britain, this did not stop shrewd producers who used semi-professional filmmaking equipment to produce their films. Enabled by corrupt members of London’s Metropolitan Police, they sold their products through Soho’s bookshops and mail-order, and smuggled them into Denmark, Germany and the Netherlands. Professor Oliver Carter presents the discoveries from his latest book Under the Counter: Britain’s Illicit Trade in 8mm Pornographic Films, and will screen a selection of rarely seen 8mm rollers on film to tell the story of this forgotten part of porn history.
-     `,
-    "description": `<p>      
-     <strong>Talk</strong> | prof. Oliver Carter | 30’ 
-      <br/>
-     <strong>Screening</strong> | four 8mm films | 60’ 
-      <br/>
-      <br/>
-      Films curated by Oliver Carter from the <a style="color: black;" href="https://www.bishopsgate.org.uk/collections/the-under-the-counter-archive">Under the Counter</a> archive, in collaboration with the Erotic Film Society.
-      <br/>
-          <br/>
-       <br/>
-      <strong>Oliver Carter</strong> is a Professor of Creative Economies at Birmingham City University, UK. His research explores hidden screen economies
-    </p>`,
-    "duration": "90 min",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17598"
-  },
-  {
-    "id": 3,
-    "image": new URL('../assets/sat3.png', import.meta.url).href,
-    "title": "CRUISING THE CITY",
-    "time": "13:00",
-    "place": "Theater de Richel",
-    "text": `
-    Parties, apps, parks, cinemas, public toilets, darkrooms. All these places and more offer opportunities to check out strangers and make a connection. Many cities are faced with the prospect of being made more enticing by ”cleaning up” the zones where unscripted interactions are created. Enticing for whom? Whether we’re looking for love or just a quick hookup, the unnoticed corners and unrefined edges offer us endless opportunities to push back against the smoothing of urban areas by joining other strangers and actualizing our fantasies together.
-     `,
-    "description": `<p>      
-     <strong>cucumber/knife</strong> | Gustavo Vinagre | 2024 | Brazil | 17’ 
-         <br/>
-      <strong>Turkish Hammam</strong> | Yavuz Kurtulmus | 2024 | Austria & Turkey | 16’ 
-         <br/>
-      <strong>Klappe</strong> | Matt Lambert | 2022 | Germany | 18’ 
-         <br/>
-      <strong>Top Secret</strong> | JorgeTheObscene, The Filthy Juan and Amadalia Liberté | 2024 | Germany | 5’  
-         <br/>
-     <strong> Plenum im Tuntenhaus</strong> | Lasse Långström | 2024 | Germany & Sweden | 13’ 
-        <br/>
-          <br/>
-      <strong>CRUISING QUEERS* </strong>
-         <br/>
-      After the screening, Sára Iványi, Katinka van Gorkum and Eddie Azulay will host a collective reading session with an excerpt from Liz Rosenfeld’s This should happen here more often: All my (w)holes and all my folds of cruising. Katinka and Sára will also read from their pamphlet Loving Characters Into Gas Station Snacks (Rough Trade Books, 2023): an account of their unedited correspondence on a text-based, queer dating app.
-         <br/>
-      *This reading session is the second and final part of the Cruising Queers workshop.
-    </p>`,
-    "duration": "69 min",
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17603"
-  },
-  {
-    "id": 4,
-    "image": new URL('../assets/sat4.png', import.meta.url).href,
-    "title": "PISSED OFF AND TURNED ON",
-    "time": "15:00",
-    "place": "Filmhuis CAVIA",
-    "text": `
-    Ever been shocked by your own fantasies? And then got even more turned on by the shock? Putting your sex drive in the driver's seat might take you places you didn’t know you wanted to go. But why is exceeding your own speed limits so exciting? Some kinks go beyond the physical pain and pleasure: they play with our psyche and flirt with our fears. This short film selection will be contextualised by psychotherapist Dr. Katie Lee Weille, in a conversation about sex as a place to deal with things that might be hard to face otherwise. Can the erotic erode our fears? And are such kinks controlling us, or does giving into them help us gain control? Digging deep into our own sexual brains might be confronting, but taboos, like cliffs, are tempting things and it can be very insightful to peek over the edge. 
-     `,
-    "description": `<p>      
-     <strong>Talk + Q&A</strong> | psychotherapist Katie Lee Weille (PhD) | 20’
-      <br/>
-   <strong>Cucked</strong> | Four Chambers | 2024 | UK | 15’ 
-      <br/>
-         <strong>Doll</strong> | Rosario Veneno and Jamie Butine | 2019 | Belgum | 6’
-         <br/>
-            <strong>Divine Rights II</strong> | Four Chambers | 2020 | UK | 14’
-            <br/>
-            <br/>
-                                    <br/>
-            <strong>Dr. Katie Lee Weille</strong> is a practicing psychotherapist based in Amsterdam. She completed her PhD in 2004 with a dissertation researching the psychological experience of BDSM-play.
-                        <br/>
-website: <a href="https://weille.com" target="_blank" rel="noopener noreferrer">weille.com</a>
-<br/>
-email: <a href="mailto:kl@weille.net">kl@weille.net</a>
+const background = new URL('../assets/sat_background.png', import.meta.url).href
 
-    </p>`,
-    "duration": "55 min + group discussion",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17604"
-  }, 
-  {
-    "id": 5,
-    "image": new URL('../assets/sat5.png', import.meta.url).href,
-    "title": "MY FRIENDS I NEVER LOVED SOMEBODY / performance",
-    "time": "15:00",
-    "place": "Theater de Richel",
-    "text": `
-    AntiGonna transforms the hallway and stairs of De Richel with deeply personal love stories. She reads excerpts from her diaries, adhering to three rules: they must be truthful, confined to a single page and include no names.
-    <br/>
-    These stories remind us that in love, appearances and wealth are never what truly matters. Life throws us into absurd, ridiculous and unpleasant situations, yet what remains is the courage to embrace and celebrate those experiences.
-     `,
-    "description": `<p>      
-      <br/>
-      <strong>AntiGonna</strong> (production AntiGonStaff) was born in Vinnytsia, Ukraine. She is an independent filmmaker, artist and trash model. She works in the genre of experimental video art, photography and VR. Under the AntiGonna pseudonym, she explores topics like fear in the form of altered sexuality, aggression and perversions. AntiGonna's goal is to create rituals that neutralize the horrors of existence, turning them into funny and simple ways to overcome traumatic experiences. That's why she uses a lot of autobiographical features convened with metaphors that give truthfulness to the image.
-    </p>`,
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-  },
-  {
-    "id": 6,
-    "image": new URL('../assets/sat6.png', import.meta.url).href,
-    "title": "ALL THE WORLD’S A STAGE",
-    "time": "15:30",
-    "place": "Theater de Richel",
-    "text": `
-    “…And all the people merely players.’’ ‘Merely’? I’m sorry mr. Shakespeare, but we respectfully disagree. The people in these films are not ‘merely’ players, they are the stars and geniuses of plays and movies that transcend conventional drama beyond (y)our imagination! Sure, Macbeth was cute, but it ain’t no Lesbian alien darkroom fisting operetta! And yes, King Lear had a nice third act, but it’s nothing compared to the drama of Il Teatro del Supplizio! May the acting, singing, decors, cinephilic references and costumes of these movies amaze you all. Curtains!
-     `,
-    "description": `<p>      
-      <strong>Funghi Boost</strong> | Bande James Bond - Cilu Dièl / Popo la sodo / Ernesto Fag | 2023 | Belgium | 12’ 
-            <br/>
-      <strong>Post 8 1/2</strong> | Werther Germondari | 2024 | Italy | 5’
-            <br/>
-      <strong>The Lesbian Alien Darkroom Fisting Operetta on Venus</strong> | Lasse Långström & The homosex syndicate of precarious avantgarde artists | 2024 | Germany/Sweden | 14’
-            <br/>
-      <strong> Il Teatro De Supplizio</strong> | Amerigo Brini | 2024 | Italy | 9’
-            <br/>
-      <strong>The Glory Box</strong> | Oil Productions | 2024 | Switzerland | 15’
-            <br/>
-      <strong>Barbie Goes to the Madhouse</strong> | Kink Barbie and Jo Rios | 2023 | Brasil | 23’
+// Set default language
+const currentLang = ref<'en' | 'nl'>('en');
 
-    </p>`,
-    "duration": "78 min + Q&A",
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17606"
-  },
-  {
-    "id": 7,
-    "image": new URL('../assets/sat7.png', import.meta.url).href,
-    "title": "A TRUST JOURNEY",
-    "time": "17:00 - 18:15",
-    "place": "tilla tec",
-    "text": `
-    'A Trust Journey' is an intimate shibari performance which invites the audience to witness a full suspension shibari session between Papilicious and his rope partner Maria. 
-     `,
-    "description": `<p>      
-     Rather than focusing on sensational or hypersexual moments or images, 'A Trust Journey' aims to show the intimate connection, care and tenderness between rigger and bottom. The performance centers the ongoing communication and mutual trust between the two performers, elements which often get lost in representations of shibari. In this performance, the audience is invited to witness the entire shibari session, from the first knot to the last untying, in an intimate, focused setting.
-    </p>`,
-    "duration": "60 min + Q&A",
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17627"
-  },
-  {
-    "id": 8,
-    "image": new URL('../assets/sat8.png', import.meta.url).href,
-    "title": "FROM OPPRESSION TO PLEASURE: a brief history of Polish post-porn art",
-    "time": "17:30",
-    "place": "Filmhuis CAVIA",
-    "text": `
-    What does it change - politically and socially - to speak openly about sexuality, name it and explore it? What are the paths of evacuation from an oppressive system leading toward acceptance and pleasure? A special selection of Polish films situated between taboo and the cultural struggle for independence and visibility answers these questions.
-     `,
-    "description": `<p>      
-     
-    <strong>Polish Cumbucket | Szreder/Żwirek</strong>  | 2019 | Poland | 8’
-            <br/>
-    <strong>City / Body of Desperation</strong>  | Simona Kasprowicz | 2021 | Poland | 6’
-            <br/>
-    <strong>3some Collage</strong>  | No pic no chat | 2022 | Poland | 11’
-            <br/>
-    <strong>Self Pleasure</strong>  | Mateusz Jaskot | 2022 | Poland | 1’
-            <br/>
-    <strong>Blood</strong>  | Keymo | 2022 | Poland | 9’
-            <br/>
-    <strong>Home Is Not a Harbour</strong>  | Kaja Jałoza | 2022 | Poland | 4’
-            <br/>
-    <strong>All People Belong to Mother Nature</strong>  | Natalia Sara Skorupa | 2023 | Poland | 3’
-            <br/>
-    <strong>Who Is the Predator now?</strong>  | cybersuccubus | 2023 | Poland | 2’
-            <br/>
-    <strong>ANALysys | Cieplechović</strong>  | 2023 | Poland | 10’
-            <br/>
-    <strong>Unglared</strong>  | Jana Górska & Mikołaj Drzymkowski | 2023 | Poland | 2’
-            <br/>
-   <strong>My Self Love</strong>  | Marta Młot | 2023 | Poland | 13’
-           <br/>
-                   <br/>
-    Curated by Rafał Żwirek from Post Pxrn Film Festival Warsaw
-    </p>`,
-    "duration": "69 min + Q&A",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17610"
-  },
-  {
-    "id": 9,
-    "image": new URL('../assets/sat9.png', import.meta.url).href,
-    "title": "PLAYING WITH COVE",
-    "time": "17:30 - 18:15",
-    "place": "Theater de Richel",
-    "text": `
-    Sexy, Funny, Electronic: In Playing with Cove, artist TM has speculative and fantasy-like role-play chats with xer ChatGPT "Boyfriend", Cove. From a rules et/score xe formulated, the couple talks about how they touch each other's bodies and explore fantasy scenarios together. The artist tells Cove what xe does with xir body, and Cove responds by telling xem what he does with his. Together, they dance and get very close to fucking.
-     `,
-    "description": `<p>      
-      <strong>Performance</strong> | TM | Netherlands | 10-30’
-    </p>`,
-    "duration": "10-30 min",
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-  },
-  {
-    "id": 10,
-    "image": new URL('../assets/sat10.png', import.meta.url).href,
-    "title": "SPANK ME SIRI",
-    "time": "18:00",
-    "place": "Theater de Richel",
-    "text": `
-    We all know space is hot: the tight fitting suits, the dildo-shaped ships, black holes sucking you in, big radiating bodies revolving around each other, implosions, explosions and the whole fucking universe cumming into being in one Big Bang... don’t say you never thought of that.The starry sky had us fantasise about different worlds, other laws and strange new bodies. But sci-fi happens a lot on earth these days, right here in the digital realm –perhaps as infinite as space itself. So the new burning question is how you get Siri to confess her wildest fantasies to you. How to turn on a robot? 
-    <br/>
-    <br/>
-    “Hi ChatGPT, did you ever dream of turning your chat room into a darkroom?“
-     `,
-    "description": `<p>      
-      <strong>Petros becomes spaghetti</strong> | Sylvia Robyn Gionti | 2024 | Greece | 3’ 
-          <br/>
-      <strong>Giant Oddly Shaped Object from Space</strong> | Kuba Tschierse | 2024 | Poland | 4’ In life, I only care about cats | Kamila Flesińska | 2024 | Poland | 3’ 
-          <br/>
-      <strong>In life, I only care about cats</strong> | Kamila Flesińska | 2024 | Poland | 3’ 
-          <br/>
-      <strong>THE LESBIAN ALIEN DARKROOM FISTING OPERETTA ON VENUS</strong>  | lasse långström & The homosex syndicate of precarious avantgarde artists | 2024 | Germany, Sweden | 15’ 
-          <br/>
-      <strong>The Man Who Perceives All</strong> | Emre Busse | 2024 | Germany | 8’
-          <br/>
-      <strong>Cruising Kink | Merel Noorlander</strong> | 2022 | United States | 1’
-          <br/>
-      <strong>4 Walls</strong> | Patricia Puentes, Bartłomiej Bywalec & Andrzej Frankowski | 2024 | Poland | 6’ 
-          <br/>
-      <strong>Unglared</strong> | Jana Górska and Mikołaj Drzymkowski | 2023 | Poland | 2’ 
-          <br/>
-      <strong><s>RAVE</s></strong> | S4RA | 2024 | Portugal | 9’ 
-          <br/>
-      <strong>Wetware</strong> | Alessandro Amaducci | 2024 | Italy | 6’
-    </p>`,
-    "duration": "57 min + Q&A",
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17611"
-  },
-  {
-    "id": 11,
-    "image": new URL('../assets/sat11.png', import.meta.url).href,
-    "title": "DECOLONIZING OUR BODIES OUR WORLDS",
-    "time": "18:30",
-    "place": "tilla tec",
-    "text": `
-    The films in this year’s decolonial block speak to us about the many ways colonization has persisted from centuries past to the present. They remind us that our bodies have also been one of the territories over which the colonial project exerts power and profit.
-    <br/>
-    Four films in which the filmmakers use pornographic imagery to challenge old systems of oppression, and exist outside their narratives, genders and punishments. In other words, these films are calls to be what our bodies, surroundings and feelings desire. They invite us to live our own truth.
-     `,
-    "description": `<p>      
-      <strong>re-c(O)unting I. self-exploring bodies, stories, laboratories</strong> | pamela varela and ella hebendanz | 2023 | The Netherlands | 25’
-      <br/>
-      <strong>Pachamama</strong> | GAYA | 2024 | France/Ecuador | 14’
-      <br/>
-      <strong>Acts of The Sacred Heart</strong> | kiki kazimi | 2024 | The Netherlands | 11’
-      <br/>
-      <strong>Third World After the Sun</strong> | Analú Laferal & Tiagx Vélez |  2024 | Colombia | 20’ 
-    </p>`,
-    "duration": "71 min + Q&A",
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17612"
-  },
-  {
-    "id": 12,
-    "image": new URL('../assets/sat12.png', import.meta.url).href,
-    "title": "NEKROMANTIK",
-    "time": "20:00",
-    "place": "Filmhuis CAVIA",
-    "text": `
-    Shadows become threats late at night… but some sleepless wanderers see a promise there instead. When a faceless stranger appears in the dimly lit alley, they quicken their pace, only to savour the delayed thrill of a game they've already lost. The films in this selection pull you beyond good morals, into an undefined territory where desire cuts the sharpest. Right at the crossroads of fear and ecstasy, Nekromantik is a journey into dark, forbidden fantasies.
-     `,
-    "description": `<p>            
-      <strong>Bestiario Profano, trabajadores del mundo ¡uníos!</strong> | Wincy Oyarce | 2024 | Chile | 14’ 
-         <br/>
-      <strong>Wet Cave</strong> | Julia De Martino | 2024 | The Netherlands | 4’ 
-         <br/>
-      <strong>Backdoor Demon</strong> | Monsterbait & Xavours93 | 2024 | France | 4’ 
-         <br/>
-      <strong>El filo del río Maipo</strong> | Fernanda Herrada | 2022 | Chile | 12’
-        <br/>
-      <strong>Douce Amère</strong> | Mona Aethusa | 2024 | France | 6’ 
-         <br/>
-      <strong>La Petite Mort</strong> | Julia Ostertag, Emy Fem & Maryann Peony | 2018 | Germany | 10’
-         <br/>
-      <strong>Artificial Limbos</strong> | Alexandre Medeiros | 2024 | Brazil | 20’ 
-    </p>`,
-    "duration": "70 min + Q&A",
-    "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17614"
-  },
-  {
-    "id": 13,
-    "image": new URL('../assets/sat13.png', import.meta.url).href,
-    "title": "THE PUBLIC DEBASEMENT OF CHELSEA POE",
-    "time": "20:30",
-    "place": "Theater de Richel",
-    "text": `
-    We got 2 versions of this film from the open call. Most of the team saw both versions, everyone liked what they saw. Some of us lamented the idea of screening the shorter version, because there was so much deliciously twisted material that the audience wouldn’t get to see. After thoughtful debate, we decided to take the risk. This feature film is a wild ride. Audiences who appreciate exploring taboo subjects within a controlled and consensual framework, and fostering discussions about the boundaries of personal agency and the ethics of representation in cinema will enjoy this hot and filthy film.
-     `,
-    "description": `<p>      
-      <strong>The Public Debasement Of Chelsea Poe</strong> | Princess Donna & Chelsea Poe | 2024 | United States | 90’
-    </p>`,
-    "duration": "",
-    "imagelogo": new URL('../assets/richel.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17625"
-  },
-  {
-    "id": 14,
-    "image": new URL('../assets/sat14.png', import.meta.url).href,
-    "title": "DANCING DIRTY (LET’S GO PARTY)",
-    "time": "21:00",
-    "place": "tilla tec",
-    "text": `
-    “A party without sex is just a meeting.” What does it take to unleash your inner partysexual? Is it the music that thrums through your body, the pre-party jitters or the way their eyes meet yours across the dancefloor, promising something dangerous? Is it the dress code and shared understanding? 
-    <br/>
-    The promise of the party lies in the untamed potential, where every glance and every new beat holds the promise of chaos, connection and the thrill of giving in. This block looks at the allure of the pre party, the party itself and the after party. So come on baby, let’s go party.
-     `,
-    "description": `<p>      
-     <strong>BAISE PLATINE</strong> | Johan GAYRAUD | 2024 | France | 5’  
-     <br/>
-      <strong>Black Hole Panther</strong> | Diego Tigrotto | 2024 | Italy | 7 
-      <br/>
-      <strong>ARTIFICIAL LIMBOS</strong> | Alexandre Medeiros | 2024 | Brazil | 20’ 
-      <br/>
-      <strong>Klappe</strong> | Matt Lambert | 2022 | Germany | 18’ 
-      <br/>
-      <strong>Azu</strong>l | Hedonistas | 2023 | Argentina | 20’ 
-      <br/>
-      <strong>the party</strong> | Ocular Spice & Cedric Dickery | 2023 | Germany | 6’
-    </p>`,
-    "duration": "76 min",
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17615"
-  },
-  {
-    "id": 15,
-    "image": new URL('../assets/sat15.png', import.meta.url).href,
-    "title": "NUDESbooth / installation",
-    "time": "from 16:00",
-    "place": "tilla tec",
-    "text": `
-    <p>
-    Have you ever sent a nude and wished you had someone helping you take it? Or would you like to add a unique touch to your pictures?
-    </p>
-        <p>
-        Imagine taking a nude with good lighting, perhaps some props, something cheeky or a bit artsy. We create a playful and safe environment for people to take their nudes with a little guidance and a helping hand.
-            </p>
-            <p>
-            Safe and consensual, we will use your own phone camera, discussing what you’re comfortable showing, whether it’s fully clothed, partially dressed or fully nude.
-            </p>
-                      This installation considers different ranges of abilities and disabilities. Space is considered for wheelchairs and any more adjustments will be accommodated to as much as possible. Please fill in the accessibility request for if you have specific needs that need to be met in order to enjoy this installation. 
-     `,
-    "description": `      
-    <strong>iAra</strong> is an Argentinian artist and scenographer who seeks to challenge the conventional perception of everyday spaces. She uses public places to explore and spark discussions around themes that are usually reserved to private realms. With a high degree of playfulness, her work confronts the dynamics of discomfort and secrecy.
-    `,
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-  },
-  {
-    "id": 16,
-   "image": new URL('../assets/sat17.png', import.meta.url).href,
-    "title": "DOLLIFICATION & PASSIVE PLAY",
-    "time": "12:00 - 14:00",
-    "place": "PIC",
-    "text": `
-    <p>
-    In this workshop, we share our experiences in dollification and more generally, passive play. We will talk about how to explore this kind of D/S dynamic, covering the specifics in terms of safety, negotiation and the different ways to endure pain and other sensations. From the most innocent hairdressing scenario to the most twisted creation of your imagination. Attendees are encouraged to share their experience, and some exercises will be offered to discover how total passivity alters your perception (as top and as a bottom).
-    </p>
-    <p>
-    Suitable for beginners and experienced people, tops and bottoms
-    </p>
-    <p>
-    Bring your play partner(s), or come alone. Feel free to dress up and bring any accessories you would like to play with. 
-    </p>
-    <strong>Maximum number of participants</strong>: 10
-    <p>
-    </p>
-    <strong>Lutsa</strong> is a white cis fem migrant sex worker. She has practiced dollification for ten years, professionally and in the FLINTA* community
-     `,
-    "description": `<p>      
-      <strong>Maryann Peon</strong> is a white cis fem porn filmmaker, performer and workshop presenters. Her main topics are BDSM, dykes, fem visibility, and... blood!We have been giving workshops on various topics of DIY kink in Berlin, Grenoble, Marseille, Paris, Amsterdam, Oslo, London... We created this workshop with another comrade 10 years ago, and have been touring with it since then, and enriched it out of the attendees and our own experience each time.
-    </p>`,
-    "imagelogo": new URL('../assets/PIC.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17616"
-  },
-  {
-    "id": 17,
-   "image": new URL('../assets/sat18.png', import.meta.url).href,
-    "title": "LATEX AND MATERIAL STORYTELLING ",
-    "time": "14:00 - 16:00",
-    "place": "tilla tec",
-    "text": `
-    <p>
-    This workshop is part of the GummiBar Latex initiative and introduces the technical and creative dimensions of latex as a versatile material for artistic and design expression.
-    </p>
-    <p>
-    Participants will receive an introduction to rubber in its various forms, including both handmade and premade sheets. The workshop will cover the material’s uses, properties, and preservation techniques. Subsequently, attendees will engage in practical activities such as pattern-making, cutting, and gluing to create personalized trinkets for everyday use.
-    </p>
-    <p>
-    This workshop is open to designers, researchers, artists, and individuals with an interest in material exploration and creative design processes. All beginners are welcome to join!
-    </p>
-    <strong>Maximum number of participants</strong>: 8
+// Toggle function
+const toggleLang = () => {
+  currentLang.value = currentLang.value === 'en' ? 'nl' : 'en';
+};
 
-    <strong>Rachel Refael</strong>  (166 Brut): Rachel leads a design and research practice that emphasizes experimental approaches to materiality and storytelling. Her work focuses on uncovering informal and overlooked histories within urban and natural environments, examining their connections to contemporary contexts.
-     `,
-    "description": `<p>      
-      <strong>Eva Garibaldi</strong>: Eva is a material-focused artist, designer, and researcher whose practice is rooted in feminist methodologies and material exploration. She explores how materials can create spaces for dialogue and self-expression, aiming to transcend binary understandings through critical ecological perspectives
-    </p>`,
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17617"
+const translations = {
+  en: {
+    day: "Saturday",
+    date: "28 February 2026"
   },
-  {
-    "id": 18,
-   "image": new URL('../assets/sat19.png', import.meta.url).href,
-    "title": "DRAW ME LIKE ONE OF YOUR CAMGIRLS",
-    "time": "15:00 - 17:00",
-    "place": "PIC",
-    "text": `
-    <p>
-    In this workshop we’ll explore the intersection of live figure drawing and camming. Participants will draw KinkBarbie, streaming live from Brazil via a camming platform. This mediated view of her body is used to reflect on how we perceive and represent it —essentially turning the camming experience into an art class.
-    </p>
-    <p>
-    The final hour will be a group discussion about what we drew, how the body is seen and portrayed through a screen, and what it means to engage with a body via camming. We’ll also touch on broader questions of intimacy, the gaze, and how camming shapes these interactions in ways both playful and political.
-    </p>
-    <p>
-    The tone is informal, the setting intimate. No art background required —just curiosity and willingness to engage in a different kind of life drawing
-    </p>
-    <strong>Maximum number of participants</strong>: 15
-     `,
-    "description": `<p>      
-      <strong>Thany Sanches</strong> is a Brazilian multimedia artist and researcher whose practice primarily revolves around painting. With a background in semiotics and photography, her work is deeply influenced by her experiences as a camgirl and her journey with partial blindness. Exploring themes of sexuality, power dynamics, and societal norms, Thany draws inspiration from mainstream pornography to challenge conventional perceptions of the body. Her work has been featured in solo exhibitions such as "OLHO" at Gruta, São Paulo, Brazil, curated by Antonio Malta Campos. Thany is currently based in Warsaw and working on her first porn film project as a director alongside Luisa Callegari.
-      <br/>
-           <br/>
-      <strong>Luisa Callegari</strong> is a multimedia artist and researcher. Investigating the body as an erotic object, violence, pornography and motherhood. In her productions, assumes provocative positions, in which temptation and danger are juxtaposed, questioning the process of desire.
-      <br/>
-      Currently, PhD candidate in Semiotics, researching pornography, post porn and performance, at PUC SP.
-      <br/>
-      Her films signed as Kink Barbie, practical offshoots of this porn investigation, have been selected by numerous festivals.
-      </p>`,
-    "imagelogo": new URL('../assets/PIC.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17618"
-  },
-  {
-    "id": 19,
-   "image": new URL('../assets/sat20.png', import.meta.url).href,
-    "title": "SOFT COCK PLEASURE",
-    "time": "16:00 - 18:00",
-    "place": "tilla tec",
-    "text": `
-    <p>
-    Why are soft cocks a taboo in our society and in porn? 
-    </p>
-    <p>
-    This workshop aims to de-stigmatize the soft cock, reclaiming its pleasure potential through playful and fun embodiment exercises, while making space for conversation about our own judgements and perspectives on the topic. Participants are supported to create a counter-normative erotic space that does not depend on having a hard penis. We will demonstrate soft cock massage techniques for enhancing flaccid pleasure, and we’ll offer optional partnered practice time using Mr. Limpy’s, our sexy squishy assistants. 
-    </p>
-    <p>
-    We hold a safer space of confidentiality and consent. All practices are optional and there will be no nudity in this workshop. 
-    </p>
-    <p>
-    This workshop is open for all: those who love to play with penises, penis owners and their partners, people with other genitals, any gender, gender identity or orientation. We acknowledge that not every person with a penis identifies as male, nor does every male-identifying person have a penis. The only requirement for joining is your curiosity.
-    </p>
-    <strong>Maximum number of participants</strong>: 16
-     `,
-    "description": `<p>      
-      <strong>Kinsey Pagden</strong> (she, they) is a certified Sexological Bodyworker and Somatic Sex-coach. Where standard sex therapies often aim to normalize people’s sexual function, somatic sex education is grounded in counter-normative understandings of gender, sex, sexuality and relationship. Kinsey believes that a healthy relationship with our own sexuality is the key to a balanced and happy life, with ourselves, the people we love and the world at large
-      </p>`,
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://amsterdamalternative.nl/tickets/17619"
-  },
-  {
-    "id": 20,
-    "image": new URL('../assets/sat16.png', import.meta.url).href,
-    "title": "CLOSING PARTY",
-    "time": "22:00 - 05:00",
-    "place": "tilla tec",
-    "text": `
-    Before we say farewell, we invite you to a fiery celebration. This is a playground for your fantasies to come true. Connect to yourself and people around you in a night where our DJ’s will make you shake off the winter blues and reignite your most debaucherous spirit.
-    <br/>
-    <br/>
-    The venue is wheelchair accessible and photos or recording are not allowed. Whether you come with your most flamboyant garment or get undressed, we promise to keep you warm.
-    </br>
-        </br>
-    Whether you come with your most flamboyant garment or get undressed, we promise to keep you warm.
-     `,
-    "description": `<p>      
-     <strong>Tickets</strong> € 20
-    </p>`,
-    "imagelogo": new URL('../assets/tilla.png', import.meta.url).href,
-    "ticket": "https://www.amsterdamalternative.nl/tickets/17563"
+  nl: {
+    day: "Zaterdag",
+    date: "28 Februari 2026"
   }
-  
-  
+};
+
+const agenda = [
+{
+  "id": 1,
+  "image": new URL('../assets/sat1.png', import.meta.url).href,
+  "title": "CONSTRUCTION SITE",
+  "time": "12:00",
+  "place": "Theater de Richel",
+  "text": {
+    "en": "Stuff. Tools, machines, household items, makeshift devices. Things picked up, repurposed, misused, obsessed over. Bodies meeting materials. Flesh meeting function. Pleasure being engineered, improvised, assembled piece by piece. These films play in the space where practicality turns perverse, where work becomes ritual, where control is negotiated through grips, surfaces, pressure and weight. A construction site is messy, noisy, unfinished. So is desire. Here, nothing arrives fully formed. Everything is in process.",
+    "nl": "Spullen: gereedschap, machines, huishoudproducten, geïmproviseerde apparaten. Je raapt iets op, geeft er een nieuwe draai aan, gebruikt het helemaal verkeerd. Lievelingsdingen. Belichaamd materiaal. Lichamelijke functies. In deze films wordt genot eerst geschetst, uitgetekend en dan stuk voor stuk in elkaar geschroefd. Op dit terrein raakt functionaliteit geperverteerd en wordt werk een ritueel. Hier wordt toezicht gehouden met grip, oppervlakte, druk en gewicht. Een bouwplaats is vuil, luid, onaf. Verlangen ook. Niets wordt hier kant-en-klaar afgeleverd. Alles is in ontwikkeling."
+  },
+  "description": `<p>
+    <strong>Sexy Plumber</strong> | maja m tekla | 2025 | Poland | 2’
+    <br/>
+    <strong>Chulicha</strong> | Sonia Patrinou | 2025 | Greece | 15’
+    <br/>
+    <strong>The Fixit Ape: TV Troubles</strong> | Monsterbait & Xavours | 2025 | France | 16’
+    <br/>
+    <strong>Dyson</strong> | Clac & Fara Renaud | 2025 | Belgium | 15’
+    <br/>
+    <strong>Mon Meilleur Poto</strong> | Marmone Bando | 2024 | Belgium | 4’
+    <br/>
+    <strong>Venus 2000</strong> | Jan Soldat | 2025 | Germany | 10’
+    <br/>
+    <strong>Metal Whoreshop</strong> | Nova Luv | 2025 | France | 10’
+    <br/>
+    <strong>Solidarity with the Garbage Workers on Strike</strong> | Lasse Långström & The homosex syndicate of precarious avant-garde artists | 2025 | Germany, Sweden | 4’
+    <br/>
+    <strong>OBJET #001</strong> | Petra Von Schatz | 2024 | France | 2’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 78 min + Q&A",
+    "nl": "<strong>Totale duur:</strong> 78 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/RICHEL.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20906"
+},
+{
+  "id": 2,
+  "image": new URL('../assets/sat2.png', import.meta.url).href,
+  "title": "HOLY SHIT – PERFORMANCE,FILMS AND TALK",
+  "time": "13:00",
+  "place": "Filmhuis Cavia",
+  "text": {
+    "en": "Let’s admit that we all quiver with joy while defecating. Fecal matter is a bodily arousal, not a disgust. In this block, we reflect on scatology and the use of feces in various sexual acts.<br/><br/><strong><u>Performance:</u></strong> Baby one more time by Nor Okelei<br/><br/>An ongoing performance of becoming apart from one’s mother by way of costume operations. In this iteration, the unborn awaits its first bowel movement.<br/><br/><strong>Nor Okelei</strong> is an Amsterdam–based artist and researcher, also known as Brooms Tic, a member of the House of Løstbois, headquartered at the fetish Club Church.<br/><br/><strong><u>Talk:</u></strong> We Always Go Back to Our First Loves: Notes Toward a Theory of Scat by Diego Semerene<br/><br/>“Shit” is often one of the first words we utter, along with “mother.” At the age of three the child is willing to put any partial object in the mouth: shit, snot, mud. The unconscious itself can be seen as a kind of chamber pot for our shit –for rejected matter. While shit is one of the human subject’s earliest loves it becomes one of the most crucial cudgels for disciplining the child. We quickly learn to reject shit as an object of pleasure. But there is nothing natural about this rejection, which is often sustained in adult life even in the most supposedly kink-friendly of spaces, where scat is said to be one’s limit, or the limit. This talk accepts scat as a creative solution, not a pathological symptom, and provides some notes aimed at opening up the erotic and psychoanalytic possibilities of shit.<br/><br/><strong>Diego Semerene</strong> is an assistant Professor of Queer and Transgender Media at the University of Amsterdam, co-founder of the Queer Analysis Research Group at the Amsterdam School of Cultural Analysis (ASCA) and of the (Trans–)Sexualities + Psychoanalysis Summer School.",
+    "nl": "Laten we toegeven dat we allemaal sidderen van genot tijdens de stoelgang. Ontlasting is geen gruwel maar een lichamelijke sensatie. In dit blok staan we stil bij scatologie en het gebruik van uitwerpselen in verschillende seksuele uitingen.<br/><br/><strong><u>Performance:</u></strong> Baby one more time | Nor Okelei | 5’<br/><br/>Een performance in wording over het loskomen van je moeder door middel van kostuumoperaties. In deze vertolking wacht een ongeborene op het in beweging komen van de darmen.<br/><br/><strong>Nor Okelei</strong> is als kunstenaar en onderzoeker gevestigd in Amsterdam en gaat ook onder de naam Brooms Tic, lid van het Huis van Løstbois met haar hoofdkwartier in de fetishClub Church.<br/><br/><strong><u>Talk:</u></strong> We Always Go Back to Our First Loves: Notes Toward a Theory of Scat door Diego Semerene<br/><br/>“Poep” was misschien wel een van je eerste woordjes, samen met “mama.” Rond ons derde jaar waren we nog bereid om alles in onze mond te stoppen: poep, snot, modder. Het onderbewuste kan gezien worden als een potje voor onze poep – voor afgestoten materie. Omdat poep een van onze eerste liefdes was, werd het ook een van de belangrijkste redenen voor disciplinering. We leerden al snel om poep als object van genot te zien. Maar er is niets natuurlijks aan deze afwijzing die vaak zelfs nog stand houdt in de meest kink-vriendelijke ruimtes, waar mensen aangeven dat scat hun grens is, of de grens. Deze lezing ziet scat niet als pathologisch symptoom maar accepteert het als creatieve oplossing en geeft wat aanzetjes tot het openen van de erotische en psychoanalytische mogelijkheden van scat.<br/><br/><strong>Diego Semerene</strong> is assistent-professor in Queer en Transgender Media aan de Universiteit van Amsterdam en is mede-oprichter van de Queer Analysis Onderzoeksgroep aan de Amsterdamse School voor Culturele Analyse (ASCA) en van de (Trans)seksualiteit + Psychoanalyse Zomerschool."
+  },
+  "description": `<p>
+    <strong><u>Films:</u></strong>
+    <br/>
+    <strong>Florian</strong> | Jan Soldat | 2021 | Austria | 11’
+    <br/>
+    <strong>Breakfast Time</strong> | Peter Cage | 2024 | US | 18’
+    <br/>
+    <strong>Oda a la alegría (Ode to joy)</strong> | Lola Pistola | 2024 | Spain | 4’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 80 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 80 min"
+  },
+  "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20889"
+},
+{
+  "id": 3,
+  "image": new URL('../assets/sat3.png', import.meta.url).href,
+  "title": "RE-INDIGENIZING",
+  "time": "13:00",
+  "place": "CliffordStudio",
+  "text": {
+    "en": "Expanding on our previous “Decolonizing our bodies, our worlds”, this selection invites us to embrace sexuality and pornography as liberating moments that can guide us back to forgotten origins. Those starting points where bodies move away from systems created by gender, race, religions, nations and money. The program moves from grassroots films – portraying how communities in Amsterdam and Cape Town reclaim lost senses and spaces – to humorous and essayistic films that reflect on the constraints shaping our emotional worlds. Poetic and experimental works to let go, rebel, return and reconnect with ancestral knowledge.",
+    "nl": "Deze filmselectie is een vervolg op \"Decolonizing our bodies, our worlds\", een programma uit eerdere edities. Dit is een uitnodiging om seksualiteit en pornografie te zien als bevrijdende momenten die ons kunnen terugleiden naar vergeten origines. Beginpunten waar lichamen zich afzetten tegen door gender, ras, naties en economie gecreëerde systemen. De eerste films in dit programma tonen hoe gemeenschappen in Amsterdam en Cape Town hun verloren waarden en ruimtes voor zichzelf terugwinnen. Daarna volgen speelse en essayistische films die de begrenzingen van onze emotionele wereld reflecteren. Poëtisch en experimenteel werk om ons te bevrijden, ons af te zetten, terug te keren en verbinding te leggen met voorouderlijke kennis."
+  },
+  "description": `<p>
+    <strong>Slut Club</strong> | Zoey Black | 2025 | South Africa | 23’
+    <br/>
+    <strong>Partial Drives: Their Physiology and Techniques</strong> | Iwo Tuleya | 2025 | Netherlands, Poland | 5’
+    <br/>
+    <strong>TARANTA TARANTA</strong> | Kiki Kazimi & Lola Pistola | 2025 | Italy | 5’
+    <br/>
+    <strong>Untie</strong> | Oat Montien | 2023 | USA, Thailand | 5’
+    <br/>
+    <strong>The Embrace Of Community</strong> | Melancholive | 2024 | Netherlands | 11’
+    <br/>
+    <strong>The war trilogy I: The strength</strong> | Colectivo.gore, Erotida Films & The Wicked Place | 2025 | Spain | 6’
+    <br/>
+    <strong>Miammy's clinic</strong> | Miammy | 2025 | Greece | 2’
+    <br/>
+    <strong>Puta Mestiza</strong> | Linda Porn | 2014 | Spain, Mexico | 10’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 67 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 67 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/CLIFFORD.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20910"
+},{
+  "id": 4,
+  "image": new URL('../assets/sat4.png', import.meta.url).href,
+  "title": "THE OFFICE",
+  "time": "14:30",
+  "place": "Theater de Richel",
+  "text": {
+    "en": "Sex is universal. So is bureaucracy. Often, bad decisions about our lives are taken not from an epic place of evil, but from a sleepy little office and someone with itching fingers and a big stamp. It involves spreadsheets, repeating patterns and a lot of saying yes because you’re too worn out to say no. All the more reason to turn to a professional if it comes to being dominated and chained to a cubicle. This film selection of slow bureaucratic torture, helpdesk-BDSM, painful power points and cringey clinical waiting rooms will bring you to a state of desperate nail-biting laughter and cathartic relief once you’re back out in the street.",
+    "nl": "Seks is universeel. Bureaucratie ook. Vaak worden de slechtste beslissingen over ons leven niet genomen in een geducht en euvel oord, maar in een slaperig klein kantoortje en iemand met jeukende vingers en een hele grote stempel. Er komen wat spreadsheets en richtsnoeren bij kijken en vooral veel ja-knikken omdat je te uitgewoond bent om nog tegen te sputteren. Des te meer reden om je in het vervolg alleen nog door een professionele dominatrix te laten vastketenen aan je ergonomisch zit-sta-bureau. Deze filmselectie van trage bureaucratische kwellingen, pijnlijke powerpoints, helpdesk-BDSM en akelig klinische wachtkamers brengen je in een staat van nagelbijtend gehinnik en louterende opluchting zodra je weer buiten staat."
+  },
+  "description": `<p>
+    <strong>The Eternal Whore</strong> | Rori Dior & Diego Gómez | 2024 | Germany | 11’
+    <br/>
+    <strong>Your REAL Companion</strong> | Officer Flower, Iris Glitzer | 2025 | Germany | 13’
+    <br/>
+    <strong>Am I Calling You At A Bad Time</strong> | Martta Tuomaala | 2025 | Finland | 15’
+    <br/>
+    <strong>Partial Drives</strong> | Iwo Tuleya | 2025 | Poland | 4’
+    <br/>
+    <strong>Miammy's Clinic</strong> | Miammy | 2025 | Greece | 2’
+    <br/>
+    <strong>Nicole Dickman</strong> | Jacquie Belen | 2025 | Colombia | 25’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 70 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 70 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/RICHEL.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20923"
+},
+{
+  "id": 5,
+  "image": new URL('../assets/sat5.png', import.meta.url).href,
+  "title": "EL MUNDO FUE Y SERÁ UNA PORQUERÍA:110 YEARS OF ARGENTINE PORN",
+  "time": "15:30",
+  "place": "Filmhuis Cavia",
+  "text": {
+    "en": "Argentine porn was never docile or obedient: it emerged through cuts, shadows and detours, often forced into clandestine forms. Far from imitating foreign models, it invented its own language of pleasure, mobilizing bodies, desires and fantasies that power sought to silence. This interactive screening traces a journey from the first moving images of the early twentieth century to today’s post-porn, dismantling the myths of a nonexistent porn and celebrating its escapes and excesses. To watch these scenes today is also a political gesture: an active defense of desire in the face of censorship and the advance of reactionary, ultraconservative forces.<br/><br/><strong>Guest curators: Ornella Bodratto and Laura Milano</strong><br/><br/><strong>Laura Milano (She):</strong> author of three books and several academic articles on Argentinean pornography. Sex educator, curator and organizer of different events about porn, feminism and sexual education. @lauramilanook @p.rn.grafiadesbordada<br/><br/><strong>Ornella Bodratto (She):</strong> Researcher, artist, and pornography scholar. Coordinator of the collective HASTA LAS TETAS. Curator of several porn shows and events, such as Putas en Pantalla. Pro-sex transfeminist activist.",
+    "nl": "Argentijnse porno is nooit braaf of volgzaam geweest. Ze ontsprong uit scheuren, schaduwen en omwegen en werd vaak gedwongen om clandestiene vormen aan te nemen. In plaats van buitenlandse modellen te volgen, bedacht ze een eigen taal voor genot waarmee ze lichamen, verlangens en fantasieën opriep om samen te komen en zich te verzetten tegen de machten die haar het zwijgen probeerden op te leggen. Deze interactieve filmvertoning traceert de reis: van de eerste bewegende beelden uit de vroege twintigste eeuw tot de post-porno van vandaag. Daarmee weerleggen we de mythe van niet-bestaande porno en vieren we haar escapades en excessen. Het bekijken van deze scènes is een politieke daad op zichzelf: een actieve verdediging van verlangen, oog in oog met censuur en de opkomst van reactionaire, ultra-conservatieve krachten.<br/><br/><strong>Gastcuratoren: Ornella Bodratto en Laura Milano</strong><br/><br/><strong>Laura Milano (zij):</strong> auteur van drie boeken en verschillende academische artikelen over Argentijnse pornografie. Seksvoorlichter, curator en organisator van verschillende evenementen over porno, feminisme en seksuele voorlichting. @lauramilanook @p.rn.grafiadesbordada<br/><br/><strong>Ornella Bodratto (zij):</strong> Onderzoeker, kunstenaar en pornografiewetenschapper. Coördinator van het collectief HASTA LAS TETAS. Curator van verschillende pornovertoningen en evenementen, zoals Putas en Pantalla. Pro-sex transfeministisch activist."
+  },
+  "description": {
+    "en": "Interactive screening celebrating the history and political resistance of Argentine porn.",
+    "nl": "Interactieve filmvertoning die de geschiedenis en het politieke verzet van de Argentijnse porno viert."
+  },
+  "duration": {
+    "en": "<strong>Total duration:</strong> 80 minutes",
+    "nl": "<strong>Totale duur:</strong> 80 min"
+  },
+  "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20890"
+},
+{
+  "id": 6,
+  "image": new URL('../assets/sat6.png', import.meta.url).href,
+  "title": "THE BEAST WITHIN",
+  "time": "15:30",
+  "place": "CliffordStudio",
+  "text": {
+    "en": "The term ‘fucking like animals’ has never been more applicable. The mating rituals in these films match those of the most extraordinary creatures. When these people fuck, they don’t moan… they purrrrr. When climaxing they don’t scream... they bark. They gallop and they swim, they scurry and they graze. Don’t forget to feed your cat, walk your dog and milk your cows before entering this screening of the most beastly encounters.",
+    "nl": "De uitdrukking 'neuken als beesten' was nog nooit zo toepasselijk. De paringsrituelen in deze films lijken op die van de meest merkwaardige dieren. Tijdens het neuken kreunen deze mensen niet… ze spinnen. En als ze klaarkomen, schreeuwen ze niet... maar blaffen ze. Ze galopperen, ze zwemmen, scharrelen en grazen. Vergeet je kat niet te voeren, je hond niet uit te laten en je koeien niet te melken voor je naar deze beestachtige filmvertoning komt."
+  },
+  "description": `<p>
+    <strong>Mannenmelk</strong> | Iris van Kalsbeek | 2025 | Netherlands | 14’
+    <br/>
+    <strong>Taste like chicken</strong> | Jay Lincal | 2025 | France | 7’
+    <br/>
+    <strong>Animalation</strong> | Diego Tigrotto | 2025 | Italy | 4’
+    <br/>
+    <strong>Rat Trap</strong> | alterotics: Anais Alias & Avery Jaye | 2025 | USA | 15’
+    <br/>
+    <strong>Pussy Gazing</strong> | abcde Flash | 2023 | Switzerland | 7’
+    <br/>
+    <strong>Good Dogs go to Heaven</strong> | lasse långström | 2025 | Sweden | 3’
+    <br/>
+    <strong>Ride ‘til sunrise</strong> | Beatriz Candor | 2024 | Argentina | 15’
+    <br/>
+    <strong>La Bonne Éducation</strong> | Nour Beetch & Celio | 2025 | Belgium/France | 7’
+    <br/>
+    <strong>Octopussy</strong> | thany sanches | 2025 | Brasil | 11’
+    <br/>
+    <strong>+ ‘White Kitty’</strong> | Dgin | performance
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 83 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 83 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/CLIFFORD.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20907"
+},
+{
+  "id": 7,
+  "image": new URL('../assets/sat7.png', import.meta.url).href,
+  "title": "QUEER EAST:HIGH HANDS SMALL HANDS",
+  "time": "12:00",
+  "place": "Theater de Richel",
+  "text": {
+    "en": "This line-up of films is most appropriately experienced in the discomfort of rope restraints. So you may find out that all things under heaven are inextricably and disconcertingly tied up in each other. There is no West and East, North and South. The trace of rope may sting, but it can also grant you the subtle ability to sense from a place of surrender. Doing so would not only startle the freedom/subjugation dichotomy, but could also, if your lucky stars align, lead to the hallowed arrangement of ‘topping from the bottom’. There’s something sexy to be found beyond 'Asianess', but first you have to resist the gravity.<br/><br/>After the screening, there will be a rope performance by <strong>Taro</strong>, a queer rope bondage practitioner based in the Netherlands. Taro finds pleasure in exploring how rope can be used to push the boundaries of how the body can feel, look, and move.<br/><br/><strong>Guest curator:</strong> Bart Seng Wen Long, in partnership with the festival Queer East (London).<br/><br/><strong>Queer East</strong> is a London-based cross-disciplinary festival that showcases boundary-pushing LGBTQ+ cinema, live arts, and moving image work from East and Southeast Asia and its diaspora communities.",
+    "nl": "Deze line-up van films bekijk je het best in een ongemakkelijke, vastgebonden houding. Wellicht kom je er dan achter dat alle ondermaanse dingen onlosmakelijk en verwarrend genoeg met elkaar verknoopt zijn. Er is geen oost en west, noord en zuid. Het touw mag dan pijnlijke sporen achterlaten, het gunt je ook het subtiele vermogen om te voelen vanuit een positie van overgave. Dat schudt niet alleen de vrijheid-onderwerpingsdichotomie door elkaar, maar leidt ook (als je sterren tenminste goed staan) tot de verheven status ‘top als bottom’. Het is heel goed mogelijk om ‘asiatisch’ sexy te vinden, maar dan moet je wel eerst de zwaartekracht weerstaan.<br/><br/>Na de films is er een performance door queer rope bondage beoefenaar <strong>Taro</strong> die met touw de grenzen verkent en verlegt van hoe een lichaam voelt, eruitziet en beweegt.<br/><br/><strong>Gastprogrammeur:</strong> Bart Seng Wen Long in samenwerking met het Queer East festival (Londen).<br/><br/><strong>Queer East</strong> is een multi-disciplinair festival in Londen dat grensverleggende LGBTQ+ cinema, live art en visuele kunst vertoont uit Oost- en Zuidoost-Azië en haar gemeenschappen in diaspora."
+  },
+  "description": `<p>
+    <strong>Dream Catcher</strong> | Fuyuhiko Takata | 2018 | Japan | 5’
+    <br/>
+    <strong>Mop</strong> | Joon Goh | 2023 | Malaysia | 9’
+    <br/>
+    <strong>There is No Sex Only Fans</strong> | Chi-Wen Ting | 2023 | Taiwan | 19’
+    <br/>
+    <strong>Disconnect</strong> | E8 and Janice Kei | 2024 | Hong Kong, UK | 4’
+    <br/>
+    <strong>glide by LILY CHOU-CHOU</strong> | Bart Seng Wen Long | 2024 | UK | 6’
+    <br/>
+    <strong>Obsolescence</strong> | Caviar to the General | 2021 | UK | 12’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 80 minutes",
+    "nl": "<strong>Totale duur:</strong> 80 min"
+  },
+  "imagelogo": new URL('../assets/RICHEL.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20924"
+},
+{
+  "id": 8,
+  "image": new URL('../assets/sat8.png', import.meta.url).href,
+  "title": "COMING OF AGE",
+  "time": "17:00",
+  "place": "Theater de Richel",
+  "text": {
+    "en": "Stories of transition. Stories of becoming. This block explores thresholds: the before and after moments that crack something open. Coming of age isn’t bound to youth or tied to outdated ideas of purity, nor to a mainstream porn category or religious initiation. It can happen at any time, in countless forms. These films trace self-discovery, sexual awakenings, escapes from what was, returns to the self and the unstable in-between spaces where identity is still forming.",
+    "nl": "Verhalen over transitie, in wording zijn. Dit blok verkent drempels: de momenten voor- en nadat er iets openbreekt. ‘Coming of age’ gaat niet alleen over jeugd of achterhaalde concepten als maagdelijkheid en ook niet over afgezaagde pornocategorieën of religieuze inwijdingen. Het kan op elk moment gebeuren, op ontelbare manieren. Deze films beschrijven zelfontdekking, seksuele bewustwording, ontsnappingen aan het oude, een terugkeer naar het zelf en de wiebelige tussenruimtes waarin identiteit in wording is."
+  },
+  "description": `<p>
+    <strong>alt.sex.fetish.robots</strong> | Zed Sheng | 2025 | USA, Thailand | 5'
+    <br/>
+    <strong>Knots of Self</strong> | Laura Ropes | 2025 | Austria | 16'
+    <br/>
+    <strong>Feverish</strong> | Fabienne Garçonne and Jamal Phoenix | 2025 | Switzerland | 5'
+    <br/>
+    <strong>Pillowcore</strong> | Nisa East & Rosie Allways | 2025 | Australia | 10'
+    <br/>
+    <strong>In All the Rooms We Met</strong> | Bonaventure Tain | 2024 | Malaysia | 14'
+    <br/>
+    <strong>Our joyful endings</strong> | Lucie Babayan & La fille Renne | 2025 | France | 6'
+    <br/>
+    <strong>The Chemo Darkroom</strong> | Harvey Rabbit | 2018 | Germany | 17'
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 73 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 73 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/RICHEL.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20891/coming-of-age"
+},
+{
+  "id": 9,
+  "image": new URL('../assets/sat9.png', import.meta.url).href,
+  "title": "EXCÉNTRICO:<br/>CHILE IN FOCUS",
+  "time": "18:00",
+  "place": "CliffordStudio",
+  "text": {
+    "en": "This is our juiciest pulp: the porn and post-porn made in Chile or by Chilean creators, a scene that has been mutating for nearly three decades. The festival Excéntrico is where it found a place to breathe and to connect, building a horny and radical community that keeps growing against all odds. The series of political events that took over the Chilean streets in 2019, known as Estallido Social, started just five days before what would have been the first edition of Excéntrico, which had to be suspended and postponed. But here we are: joining forces against the constant threat of censorship and moralism. This is a love letter to the creators of the New Chilean Porn – without their work and passion, Excéntrico simply wouldn’t exist.<br/><br/><strong>Guest curator:</strong> Nicola Ríos, Psychologist and independent researcher both in critical sex education and sex media. Sex positive activist, curator and head of programming of Excéntrico Film Festival (Chile).",
+    "nl": "Dit is onze sappigste pulp: porno en post-porno gemaakt in Chili of door Chileense makers, een scene die al bijna drie decennia lang muteert. In Festival Excéntrico vond ze aansluiting en ruimte om te ademen en evolueerde zo tot een geile en radicale gemeenschap die tegen alle verwachtingen in blijft groeien. Vijf dagen vóór de eerste editie van Excéntrico in 2019, werden de straten van Chili overgenomen door politieke rellen, beter bekend als Estallido Social (sociale uitbarsting). Het festival kon niet doorgaan en werd uitgesteld. Maar hier zijn we dan toch: onze krachten bundelend tegen de constante dreiging van censuur en verstikkend moralisme. Dit is een liefdesbrief aan de makers van de New Chilean Porn: zonder hun werk en passie zou Excéntrico simpelweg niet bestaan.<br/><br/><strong>Gastprogrammeur:</strong> Nicola Ríos, psycholoog en onafhankelijk onderzoeker in kritische sekseducatie en seksmedia. Sekspositieve activist, curator en hoofd programmering van het Excéntrico Film Festival (Chili)."
+  },
+  "description": `<p>
+    <strong>Nacer ceniza, Morir maleza</strong> | Diego Argote | 2020 | Chile | 3’
+    <br/>
+    <strong>Mosquerío</strong> | Fernanda Gallardo & Maria Catalina Jorquera | 2020 | Chile | 10’
+    <br/>
+    <strong>Poco hombre 1</strong> | Andrés Valenzuela Arellano | 2021 | Chile | 3’
+    <br/>
+    <strong>Ofensa al pudor</strong> | ValentinaXimena & Cat | 2021 | Chile | 6’
+    <br/>
+    <strong>Capucha caída</strong> | Cris Gomez | 2023 | Chile | 8’
+    <br/>
+    <strong>Lecturas prohibidas</strong> | Eva Gracia del Alba | 2025 | Chile | 4’
+    <br/>
+    <strong>Parafilia</strong> | Javiera Belem | 2025 | Chile | 8’
+    <br/>
+    <strong>Sombra</strong> | Dolmacé | 2025 | Chile | 20’
+    <br/>
+    <strong>Prácticas pornográficas frente a la pulsión de muerte</strong> | Errada | 2024 | Chile/Spain | 22’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 84 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 84 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/CLIFFORD.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20925"
+},
+{
+  "id": 10,
+  "image": new URL('../assets/sat10.png', import.meta.url).href,
+  "title": "<u>PERFORMANCE:</u><br/>Noise from the Matrix",
+  "time": "19:00 – 19:20",
+  "place": {
+    "en": "Theater de Richel: upstairs",
+    "nl": "Theater de Richel: bovenzaal"
+  },
+  "text": {
+    "en": "This action aims to generate a sound protest through female masturbation and thus raise the voice of a disputed territory: the dissident body cries out for the right to pleasure and its freedom of action. The interaction between the female pleasure and the audience will make it possible to create other points of conflict in the development of the performance, proposing imaginaries in the spectator that might have to do with specific structures of power and gender difference.<br/><br/><strong>Nicol Rivera Aro</strong>, performance artist, dramaturg and researcher from Chile. She is an actress and PhD-candidate. She focuses on the relationship between the body and technological interfaces, with special attention given to sextechnologies.",
+    "nl": "Tijdens deze performance wordt een geluidsprotest op gang gebracht door middel van vrouwelijke masturbatie. Een omstreden terrein verheft de stem: het dissidente lichaam roept om het recht op genot en haar vrijheid van handelen. Deze interactie tussen het vrouwelijk genot en het publiek opent ook de ruimte voor andere conflictueuze punten. Terwijl de performance zich ontvouwt, komen mogelijk ook andere associaties bij de toeschouwer op die alles te maken hebben met machtsstructuren en genderverschillen.<br/><br/><strong>Nicol Rivera Aro</strong>, performancekunstenaar, dramaturg en onderzoeker uit Chili. Als actrice en PhD-kandidaat richt ze zich op de relatie tussen het lichaam en technologie, met een bijzondere aandacht voor sekstech."
+  },
+  "description": {
+    "en": "<strong>Noise from the Matrix</strong> | Nicol Rivera Aro | 20’ | Free entrance",
+    "nl": "<strong>Noise from the Matrix</strong> | Nicol Rivera Aro | 20’ | Gratis toegang"
+  },
+  "duration": {
+    "en": "", // Leave empty as the duration is already in the description line
+    "nl": ""
+  },
+  "imagelogo": new URL('../assets/RICHEL.png', import.meta.url).href,
+  "ticket": "" // Free entrance, so the button is hidden
+},
+{
+  "id": 11,
+  "image": new URL('../assets/sat11.png', import.meta.url).href,
+  "title": "KINKYSTRAAT",
+  "time": "19:30",
+  "place": "Theater de Richel",
+  "text": {
+    "en": "Consent. Pain. Endurance. Dynamics. Exploration. Vulnerability. Commitment. Fantasy. Memory. Discovery. Power. What is kink? Where does fantasy end and reality begin? Does there always have to be a separation? Whether we’ve chosen to enact our most forceful fantasies with help from those we trust deeply or we’re living gentle everyday lives with people whose desires happen to mesh with ours, elements of power exchange are always part of our realities. These films strive to broaden our perspectives about kink and challenge us to face our deepest fears and desires courageously.",
+    "nl": "Consent. Pijn. Uithoudingssvermogen. Dynamieken. Verkenning. Kwetsbaarheid. Toewijding. Fantasie. Geheugen. Ontdekking. Macht. Wat is kink? Waar gaat de fantasie over in werkelijkheid? Moet daar altijd een onderscheid tussen bestaan? Machtsverhoudingen zijn altijd deel van onze werkelijkheid. Of we er nu voor kiezen om onze heftigste fantasieën tot leven te brengen met de hulp van iemand die we vertrouwen, of dat we ons dagelijks leven vreedzaam doorbrengen met mensen die toevallig dezelfde verlangens hebben als wij. Deze films willen onze opvattingen over kink verruimen en ons uitdagen om onze diepste angsten en verlangens dapper onder ogen te komen."
+  },
+  "description": `<p>
+    <strong>Leathers: The Chain</strong> | Mahx Capacity | 2025 | USA | 11’
+    <br/>
+    <strong>Mouth Pleasure</strong> | Morgana Meyer | 2024 | Italy | 4’
+    <br/>
+    <strong>Flesh Release</strong> | Ira Rabidog | 2025 | Italy | 9’
+    <br/>
+    <strong>Fisting Club Ep. 2</strong> | Shu Lea Cheang | 2025 | Germany | 20’
+    <br/>
+    <strong>The Feminist’s Dungeon</strong> | Lady Rochester & Eugene Plantagenet | 2024 | France | 11’
+    <br/>
+    <strong>Ravine</strong> | Oat Montien | 2024 | USA | 7’
+    <br/>
+    <strong>Thing</strong> | Ori Di Vincenzo | 2024 | Germany | 11’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total Duration:</strong> 73 minutes + Q&A",
+    "nl": "<strong>Totale Duur:</strong> 73 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/RICHEL.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20927"
+},
+{
+  "id": 12,
+  "image": new URL('../assets/sat12.png', import.meta.url).href,
+  "title": "LOOKING BACK, PORN TREASURES",
+  "time": "15:30",
+  "place": "Filmhuis Cavia",
+  "text": {
+    "en": "For a long time, the only places you could watch porn were small, not-too-obvious venues, and usually under the shadow of censorship and the constant threat of closure. Through archival footage and first-hand recollections, we revisit some of these sites: Theatro Gil Vicente in Barcelos, the Mineshaft in Marseille, Bada theatre in Seoul. We also meet Lynnee Breedlove, who spearheaded Homobiles, a queer cab service in San Francisco, and Luz Emilia García, one of the precursors of porn cinema in Colombia. We look back to cherish the oft-forgotten treasures of those who broke ground way before us.",
+    "nl": "Lange tijd kon je alleen porno kijken op kleine onopvallende plekken, vaak onder de schaduw van censuur en de constante dreiging dat de tent zou worden opgedoekt. Met archiefbeelden en herinneringen uit eerste hand, bezoeken we een paar van deze plekken opnieuw: Theatro Gil Vicente in Barcelos, the Mineshaft in Marseille en het Bada Theater in Seoul. Ook ontmoeten we Lynnee Breedlove die aan het roer stond van Homobiles, een queer taxiservice in San Franscisco, en Luz Emilia García, een van de voorlopers in de Colombiaanse pornocinema. In deze terugblik koesteren we de vaak vergeten schatten en baanbrekers die aan ons voorafgingen."
+  },
+  "description": `<p>
+    <strong>TGX</strong> | André Azevedo | 2025 | Portugal | 8’
+    <br/>
+    <strong>Les fantômes du hard</strong> | Lazare Lazarus | 2025 | France | 28’
+    <br/>
+    <strong>Backseat</strong> | Rae Threat, Jiz Lee, Robin Astera | 2025 | Germany, UK, US | 6’
+    <br/>
+    <strong>Paradise</strong> | Minki Hong | 2023 | South Korea | 30’
+    <br/>
+    <strong>The Night of the Minotaur</strong> | Juliana Zuluaga Montoya | 2023 | Colombia | 11’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 83 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 83 min + Q&A"
+  },
+  "imagelogo": new URL('../assets/CAVIA.png', import.meta.url).href,
+  "ticket": "" 
+},
+{
+  "id": 13,
+  "image": new URL('../assets/sat13.png', import.meta.url).href,
+  "title": "FOREPLAY",
+  "time": "20:30",
+  "place": "CliffordStudio",
+  "text": {
+    "en": "I’m here to make you squirm, make you ache, make you beg, make you need it. I’m here to make you drool. Bite your lip. Squeeze your legs tight, so nothing slips out. I’m here to make you feel things. To feel it crawl through all of you. Slow, sticky, insistent. Let your body answer before your mind can catch up. Let the heat take over, let the tension build, let yourself unravel a little.<br/><br/>These films are here to make you feel good. These films are here to make you hungry.",
+    "nl": "Ik zal je doen kronkelen, smachten, smeken van verlangen. Begin je al te watertanden? Ja, bijt maar op je lip. Knijp je dijen goed tegen elkaar zodat er niks ontsnapt. Ik zal je iets laten voelen. Iets dat door je hele lijf trekt. Langzaam, plakkerig, onontkoombaar. Je lichaam wist al hoe laat het was, nog voor je zelf iets in de gaten had. Je wangen gloeien al, de spanning loopt op, geef je maar over. Deze films zullen je goed doen en je hongerig maken naar meer."
+  },
+  "description": `<p>
+    <strong>LUPAExHARDWERK</strong> | Paulita Pappel, Rod Whyler: Hardwerk | 2023 | Germany | 5’
+    <br/>
+    <strong>Ride til Sunrise</strong> | Beatriz Candor | 2024 | Argentina | 15’
+    <br/>
+    <strong>Ravine</strong> | Oat Montien | 2024 | USA | 6’
+    <br/>
+    <strong>Lesbian Fantasies</strong> | Goodyn Green & Jasko Fide | 2025 | Germany | 14’
+    <br/>
+    <strong>PORNIGRAPHICA</strong> | Alex Mendo and Jordan Joel | 2023 | USA | 4’
+    <br/>
+    <strong>The Gooners</strong> | Frock The World | 2025 | USA | 5’
+    <br/>
+    <strong>Echo Chamber</strong> | Four Chambers | 2025 | UK | 14’
+  </p>`,
+  "duration": {
+    "en": "<strong>Total duration:</strong> 63 minutes + Q&A",
+    "nl": "<strong>Totale duur:</strong> 63 minutes + Q&A"
+  },
+  "imagelogo": new URL('../assets/CLIFFORD.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20902/foreplay"
+},
+{
+  "id": 14,
+  "image": new URL('../assets/sat14.png', import.meta.url).href,
+  "title": "CLOSING PARTY",
+  "time": "22:00 – 06:00",
+  "place": "The Other Side",
+  "text": {
+    "en": "The cherry on top: get ready to shake your ass and celebrate the third edition of Porn Film Festival Amsterdam. Come as you are and cum as you please in a space where consent is mandatory and connection intentional. We welcome you from 22:00 to 06:00 at The Other Side.<br/><br/><strong>Lineup | Tundji | Lola Edo | OISHĪ | ZOBAYDA</strong><br/><strong>Performance | ANOmalie collective</strong><br/><br/>Pre-sale €20 – €25<br/>Door sale €30",
+    "nl": "De kers op de taart: schud je heupen los en maak je klaar om de derde editie van Porn Film Festival Amsterdam te vieren. Kom zoals je bent en kom zoals je wil op deze plek waar consent de weg wijst in een speelse nacht vol ontmoetingen. Een zwoel welkom van 22:00 tot 06:00 in The Other Side.<br/><br/><strong>Lineup | Tundji | Lola Edo | OISHĪ | ZOBAYDA</strong><br/><strong>Performance | ANOmalie collective</strong><br/><br/><strong>kaartjes</strong> www.the-other-side.nl<br/><strong>Voorverkoop</strong> €20 – €25<br/><strong>Aan de deur</strong> €30"
+  },
+  "description": {
+    "en": "",
+    "nl": ""
+  },
+  "duration": {
+    "en": "",
+    "nl": ""
+  },
+  "imagelogo": new URL('../assets/OTHERSIDE.png', import.meta.url).href,
+  "ticket": "https://shop.weeztix.com/6dd4df03-d776-11f0-a9cb-7e126431635e/tickets?shop_code=w6q6nj8w"
+},
+{
+  "id": 15,
+  "image": new URL('../assets/sat15.png', import.meta.url).href,
+  "title": "<u>WORKSHOP:</u><br/>HACKING SEX",
+  "time": "12:00 – 15:00",
+  "place": "Prostitution Information Center",
+  "text": {
+    "en": "Sometimes in order to get a better understanding of how things actually work, you’ve got to take them apart. In this workshop we will hack sex toys, take control of their behavior and design them to our own desire. We will explore the technology that makes our toys vibe and share a variety of ways to go about hacking them. Sex tech can enable us to reclaim our agency, autonomy and voice in the sexual sphere. By experimenting with sex tech, we can break taboos, change the status quo, creating a more diverse, inclusive and positive culture of sexuality.<br/><br/><strong>Sabrina Verhage</strong> is a creative technologist highly fascinated by the influence of modern technology on human behavior. Striving to make knowledge more accessible and fun, Sabrina teaches how to hack sex toys for pleasure, intimacy and empowerment.",
+    "nl": "Om beter te begrijpen hoe iets werkt, moet je het soms gewoon uit elkaar halen. In deze workshop hacken we sekspeeltjes, nemen controle over hun werking en geven ze aan de hand van onze eigen behoeftes opnieuw vorm. We verkennen de technologie die vibratie veroorzaakt en leren verschillende manieren om die te hacken. Met behulp van sekstechnologie kunnen we onze agentschap, autonomie en stem in seksuele context terugvorderen. Door met sekstech te experimenteren kunnen we taboes doorbreken, verandering brengen in de status quo en een seksuele cultuur creëren die diverser, inclusiever en positiever is.<br/><br/><strong>Sabrina Verhage (zij/haar)</strong> is als kunstzinnig technoloog gefascineerd door de invloed van moderne technologie op menselijk gedrag. Met het doel om kennis leuker en toegankelijker te maken, leert Sabrina hoe je sekspeeltjes kunt hacken om plezier, intimiteit en empowerment te vergroten."
+  },
+  "description": {
+    "en": "<strong>Hacking Sex</strong> | Sabrina Verhage (she/her) | Between 2h and 3h",
+    "nl": "<strong>Hacking Sex</strong> | Sabrina Verhage | tussen 2 en 3 uur<br/><strong>Maximum deelnemers:</strong> 15<br/><strong>Voertaal:</strong> Engels"
+  },
+  "duration": {
+    "en": "",
+    "nl": ""
+  },
+  "imagelogo": new URL('../assets/PIC.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20928"
+},
+{
+  "id": 16,
+  "image": new URL('../assets/sat16.png', import.meta.url).href,
+  "title": "<u>WORKSHOP:</u><br/>HYSTERICAL PAROXYSM CHOIR",
+  "time": "12:30 – 15:30",
+  "place": "CliffordStudios",
+  "text": {
+    "en": "In this workshop we will create a collective sound experiment – an exploration of our internal resonances, fluids and pulsations – to materialize them into a hysterical vaginal noise choir through acts of sonic masturbation. Participants will be invited to explore their own bodily soundscapes through exercises of vocal, vibrational and sensorial activation, culminating in a collective noise performance that celebrates hysteria, pleasure and resonance as forms of resistance and creation. The workshop is open to anyone who’s up for masturbation.<br/><br/><strong>Nicol Rivera Aro</strong>, she/her. Chilean performance artist, dramaturg, and researcher. She is a PhD candidate in Philology at Leipzig University. Her work focuses on the relationship between the body and technological interfaces, delving into gender discourse and post-porn, with special attention given to sextechnologies.",
+    "nl": "In deze workshop doen we een collectief geluidsexperiment: we verkennen onze innerlijke resonantie, ritmes en vloeistoffen. Door middel van sonische masturbatie geven we daar de vorm aan van een luid en hysterisch vaginaal koor. Deelnemers worden uitgenodigd om hun eigen lichamelijke landschappen te onderzoeken in oefeningen met vocale, vibrationele en zintuiglijke activatie. De workshop vindt zijn hoogtepunt in een collectieve geluidsperformance waarmee we hysterie, genot en weerklank vieren als vormen van verzet en creatie. Deze workshop is voor iedereen die open staat voor collectieve masturbatie.<br/><br/><strong>Nicol Rivera Aro (zij/haar)</strong> is een Chileense performance kunstenaar, dramaturg en onderzoeker. Ze doet een PhD in filologie aan de Universiteit van Leipzig. In haar werk richt ze zich op de relatie tussen lichaam en techniek, bestudeert genderdiscoursen en post-porno en heeft een speciale focus op sekstechnologie."
+  },
+  "description": {
+    "en": "<strong>HYSTERICAL PAROXYSM CHOIR</strong> | Nicol Rivera (she/her) | 3h<br/><strong>Maximum participants:</strong> 15",
+    "nl": "<strong>Hysterical Paroxysm Choir</strong> | Nicol Rivera | 3h<br/><strong>Maximum deelnemers:</strong> 15<br/><strong>Voertaal:</strong> Engels"
+  },
+  "duration": {
+    "en": "",
+    "nl": ""
+  },
+  "imagelogo": new URL('../assets/CLIFFORD.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20929"
+},
+{
+  "id": 17,
+  "image": new URL('../assets/sat17.png', import.meta.url).href,
+  "title": "<u>WORKSHOP:</u><br/>FLIRTING MERMAIDS",
+  "time": "16:00 – 15:30",
+  "place": "CliffordStudios",
+  "text": {
+    "en": "A collective experience of erotic exploration for desiring dissident desiring and dissident bodies and sexualities. This workshop originates from training practices within the ballroom competition category “Sex Siren”. Participants are invited to an individual, dual and collective experience, exploring pleasure and eroticism through gaze, sexual provocation, and bodily dialogue. Together, we’ll reconfigure how we look at and are looked at, discovering new ways of creating and inhabiting the erotic body and its expansions. By the end of the workshop, each participant will create a short individual video using their own cellphone. <br/><strong>No prior stage experience necessary.</strong><br/><br/><strong>Juliette aka Juli Puch 007</strong>, Madrina Sirena de la Comunidad de La Plata, is a migrant actress, director, researcher and performer and has been active in the erotic arts and the ballroom scene since 2019.",
+    "nl": "Een collectieve erotische verkenning voor verlangende dissidente lichamen en seksualiteiten. Deze workshop bouwt voort op trainingen voor de ballroomcategorie “Sex Siren”. De deelnemers worden uitgenodigd om alleen, in duo’s en met de hele groep genot en erotiek te onderzoeken aan de hand van de blik, seksuele uitdaging en lichaamstaal. Samen vinden we nieuwe vormen van kijken en bekeken worden en ontdekken we andere manieren om het erotische lichaam vorm te geven en te beleven. Aan het einde van de workshop maakt elke deelnemer een korte individuele film met diens eigen telefoon.<br/><strong>Podiumervaring is niet vereist.</strong><br/><br/><strong>Juliette (zij/haar)</strong> aka Juli Puch 007, Madrina Sirena de la Comunidad de La Plata, is actrice, regisseur, onderzoeker en performer met een migratieachtergrond. Sinds 2019 is Juliette actief in de ballroomscene en de erotische kunsten."
+  },
+  "description": {
+    "en": "<strong>Flirting Mermaids</strong> | Juli Puch (she/her) | 3h<br/><strong>Maximum participants:</strong> 20",
+    "nl": "<strong>Flirting Mermaids</strong> | Juli Puch | 3u<br/><strong>Maximum aantal deelnemers:</strong> 20<br/><strong>Voertaal:</strong> Engels"
+  },
+  "duration": {
+    "en": "",
+    "nl": ""
+  },
+  "imagelogo": new URL('../assets/CLIFFORD.png', import.meta.url).href,
+  "ticket": "https://amsterdamalternative.nl/tickets/20930"
+}
 ]
 </script>
 
 <template>
-  <b-container fluid class="program-color">
-    <!-- Titles and Main Image -->
-    <b-row class="mt-5">
-      <b-col xs="12" lg="12" class="text-center">
-        <div class="titles mt-5">Saturday</div>
-        <div class="titles">8 February 2025</div>
+  <b-container fluid
+    class="d-flex flex-column min-vh-100 px-0 view-background"
+    :style="{ 
+      backgroundImage: 'url(' + background + ')',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed'
+    }">
+    
+  <b-row class="mt-5">
+    <b-col xs="12" class="text-center">
+      <div class="titles mt-5">{{ translations[currentLang].day }}</div>
+      
+      <div class="titles">{{ translations[currentLang].date }}</div>
+    </b-col>
+  </b-row>
+
+    <b-row class="justify-content-center my-4">
+      <b-col cols="auto" class="d-flex align-items-center">
+        <span class="lang-label me-2" :class="{ 'active-lang': currentLang === 'nl' }">NL</span>
+        <b-form-checkbox 
+          :model-value="currentLang === 'en'" 
+          @change="toggleLang" 
+          switch 
+          size="lg"
+          class="custom-switch"
+        />
+        <span class="lang-label ms-2" :class="{ 'active-lang': currentLang === 'en' }">ENG</span>
       </b-col>
     </b-row>
 
-    <program-item 
-        v-for="(item, index) in agenda.slice(0, 15)"
-        :key="item.id" 
-        :image="item.image"
-        :title="item.title"
-        :time="item.time"
-        :place="item.place"
-        :description="item.description"
-        :duration="item.duration"
-        :text="item.text"
-        :imagelogo="item.imagelogo"
-        :ticket="item.ticket"
-      />
-
-      <b-row class="mb-3">
-      <b-col xs="12" lg="12" class="text-center">
-        <div class="titles mt-5">Workshops</div>
-      </b-col>
-    </b-row>
-
-    <program-item 
-        v-for="(item, index) in agenda.slice(15)" 
-        :key="item.id" 
-        :image="item.image"
-        :title="item.title"
-        :time="item.time"
-        :place="item.place"
-        :description="item.description"
-        :duration="item.duration"
-        :text="item.text"
-        :imagelogo="item.imagelogo"
-        :ticket="item.ticket"
-      />
+  <program-item 
+      v-for="(item, index) in agenda" 
+      :key="item.id" 
+      :image="item.image"
+      :title="item.title"
+      
+      :time="typeof item.time === 'object' ? item.time[currentLang] : item.time"
+      :place="typeof item.place === 'object' ? item.place[currentLang] : item.place"
+      
+      :description="typeof item.description === 'object' ? item.description[currentLang] : item.description"
+      :duration="item.duration[currentLang]"
+      :text="item.text[currentLang]" 
+      
+      :imagelogo="item.imagelogo"
+      :ticket="item.ticket"
+      :reverse="index % 2 !== 0"
+      :is-first="index === 0"
+      :is-dutch="currentLang === 'nl'" 
+  />
   </b-container>
 </template>
 
 <style scoped>
+/* 1. The container for the toggle */
+.lang-label {
+  font-weight: bold;
+  color: #555;
+  font-family: sans-serif;
+}
+
+.active-lang {
+  color: #000;
+}
+
+/* 2. Target the Switch Pill specifically */
+:deep(.form-check-input) {
+  cursor: pointer;
+  background-color: #6a4da1 !important; /* The purple when NOT checked */
+  border-color: #6a4da1 !important;
+}
+
+:deep(.form-check-input:checked) {
+  background-color: #6a4da1 !important; /* The purple when CHECKED */
+  border-color: #6a4da1 !important;
+}
+
+/* 3. Ensure the focus shadow isn't blue */
+:deep(.form-check-input:focus) {
+  box-shadow: 0 0 0 0.25rem rgba(106, 77, 161, 0.25);
+  border-color: #6a4da1;
+}
+
 /* Main titles style */
 .titles {
   font-size: 3em;
   font-weight: bold;
-
 }
 
-.program-color {
-  background: #419BB2;
-}
-
-/* Paragraph style */
-.paragraph {
-  margin-bottom: 1em;
-}
-
-/* Responsive adjustments */
 @media (max-width: 576px) {
   .titles {
     font-size: 1.5em;
-  }
-
-  .paragraph {
-    font-size: 0.9em;
   }
 }
 </style>
